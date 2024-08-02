@@ -11,8 +11,7 @@ in {
           names = ["monospace"];
   	  size = 8.0;
 	  };
-        startup = {
-          [
+        startup = [
 	  { command = "dex --autostart --environment i3"; notification = false; }
 	  { command = "xrandr --output DP-2 --auto --left-of DP-0 &"; notification = false; }
 	  { command = "xss-lock --transfer-sleep-lock -- i3lock --nofork"; notification = false; }
