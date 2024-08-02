@@ -19,22 +19,28 @@ in {
 	  { command = "picom -f"; always = true; notification = false; }
 	  { command = "feh --bg-fill "+"${backgroundlocation}"; notification = false; }
 	  ];
-        };
+        
+        gaps = {
+	  inner = 6;
+	};
+	floating.border = 0;
+	window.border = 0;
+	window.titlebar = false;
+	floating.titlebar = false;
 
-        keybindings = {
-          let
-	    mod = config.xsession.windowManager.i3.config.modifier;
-	  in lib.mkOptionDefault {
-            "XF86AudioRaiseVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%";
-	    "XF86AudioLowerVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%";
-	    "XF86AudioMute" = "exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle";
-	    "XF86AudioMicMute" = "exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle";
-	  };
-        };
+
+#        keybindings = {
+#	  lib.mkOptionDefault = {
+#            "XF86AudioRaiseVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10%";
+#	    "XF86AudioLowerVolume" = "exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10%";
+#	    "XF86AudioMute" = "exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle";
+#	    "XF86AudioMicMute" = "exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle";
+#	  };
+#        };
         bars = [{
 	  statusCommand = "SCRIPTS=/home/nick/.config/i3blocks/scripts i3blocks -c ~/.config/i3blocks/config";
 	  }];
       };
     };
   };
-};
+}
