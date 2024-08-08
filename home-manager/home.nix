@@ -24,7 +24,7 @@
 #	};
 
   imports = [
-  	./apps/i3/default.nix
+  	./apps/i3
   ];
 
 

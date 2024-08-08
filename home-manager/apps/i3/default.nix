@@ -38,7 +38,7 @@ in {
 #	  };
 #        };
         bars = [{
-	  statusCommand = "SCRIPTS=../i3blocks/scripts i3blocks";
+	  statusCommand = "SCRIPTS=../i3blocks/scripts i3blocks -c ../i3blocks/config";
 	  }];
       };
     };
