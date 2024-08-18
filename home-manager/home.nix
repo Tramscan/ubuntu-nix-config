@@ -82,7 +82,11 @@
   #  /etc/profiles/per-user/nick/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
+    SUDO_EDITOR = "nvim";
+    SYSTEMD_EDITOR = "nvim";
     EDITOR = "nvim";
+    VISUAL = "nvim";
+    LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
   };
 
   # Let Home Manager install and manage itself.
