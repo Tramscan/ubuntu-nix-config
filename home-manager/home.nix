@@ -25,6 +25,7 @@
 
   imports = [
   	./apps/i3
+	./apps/nixvim
   ];
 
 
