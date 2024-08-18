@@ -27,6 +27,7 @@
         inherit pkgs;
         modules = [
           ./home-manager/home.nix
+	  nixvim.homeManagerModules.nixvim
         ];
       };
     };

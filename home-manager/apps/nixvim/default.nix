@@ -1,8 +1,4 @@
 {inputs, ...}: {
-#  imports = [
- #   inputs.nixvim.homeManagerModules.nixvim
-  #  ];
-
   home.shellAliases.v = "nvim";
   
   programs.nixvim = {
@@ -16,7 +12,7 @@
 	  "nvim-treesitter"
         ];
       };
-      byteCompileLue.enable = true;
+      byteCompileLua.enable = true;
     };
 
     viAlias = true;
