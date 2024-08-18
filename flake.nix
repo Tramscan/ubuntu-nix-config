@@ -15,6 +15,7 @@
   outputs = {
     nixpkgs,
     home-manager,
+    nixvim,
     ...
   }: let
     # system = "aarch64-linux"; If you are running on ARM powered computer

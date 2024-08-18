@@ -1,7 +1,7 @@
 {inputs, ...}: {
-  imports = [
-    inputs.nixvim.homeManagerModules.nixvim
-    ];
+#  imports = [
+ #   inputs.nixvim.homeManagerModules.nixvim
+  #  ];
 
   home.shellAliases.v = "nvim";
   
