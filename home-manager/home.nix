@@ -41,6 +41,7 @@
 	mujoco
 	freecad
 	mesa
+	alacritty
 
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your
@@ -86,6 +87,7 @@
     SYSTEMD_EDITOR = "nvim";
     EDITOR = "nvim";
     VISUAL = "nvim";
+    TERMINAL = "alacritty";
     LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
   };
 
