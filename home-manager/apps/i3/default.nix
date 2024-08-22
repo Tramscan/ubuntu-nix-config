@@ -27,7 +27,7 @@ in {lib, ...}: {
 	window.border = 0;
 	window.titlebar = false;
 	floating.titlebar = false;
-
+        terminal =  "alacritty";
         #keybindings = let modifier = "Mod4"; in lib.mkDefault {
 	#  "${modifier}+Return" = "exec --no-startup-id alacritty";
 	#};
