@@ -1,6 +1,6 @@
 let
   backgroundlocation = "/usr/share/wallpapers/Cluster/contents/images/3840x2160.png";
-in {
+in {lib, ...}: {
   xsession = {
     enable = true;
     windowManager.i3 = {
@@ -28,6 +28,9 @@ in {
 	window.titlebar = false;
 	floating.titlebar = false;
 
+        #keybindings = let modifier = "Mod4"; in lib.mkDefault {
+	#  "${modifier}+Return" = "exec --no-startup-id alacritty";
+	#};
 
 #        keybindings = {
 #	  lib.mkOptionDefault = {
