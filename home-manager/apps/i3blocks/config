@@ -44,6 +44,9 @@ interval=180
 command=$SCRIPTS/gpuutil.sh
 interval=180
 
+[battery]
+command=$SCRIPTS/battery-check.sh
+interval=15
 # Volume indicator
 #
 # The first parameter sets the step (and units to display)
