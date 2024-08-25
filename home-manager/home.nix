@@ -95,4 +95,14 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  nix = {
+    settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      auto-optimise-store = true;
+      auto-allocate-uids = true;
+      max-jobs = "auto";
+    };
+  #package = pkgs.nixVersions.stable;
+  };
 }
