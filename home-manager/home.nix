@@ -98,10 +98,11 @@
 
   nix = {
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [ "nix-command" "flakes" "auto-allocate-uids"];
       auto-optimise-store = true;
       auto-allocate-uids = true;
       max-jobs = "auto";
+      trusted-users = [ "nick" ];
     };
   package = pkgs.nix;
   };
