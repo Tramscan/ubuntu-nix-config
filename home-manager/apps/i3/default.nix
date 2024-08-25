@@ -41,7 +41,7 @@ in {lib, ...}: {
 #	  };
 #        };
         bars = [{
-	  statusCommand = "SCRIPTS=../i3blocks/scripts i3blocks -c ~/.config/nix/home-manager/apps/i3blocks/i3blocks.conf";
+	  statusCommand = "SCRIPTS=../i3blocks/scripts i3blocks -c ~/.config/nix/home-manager/apps/i3blocks/config";
 	  }];
       };
     };
