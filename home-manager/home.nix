@@ -103,6 +103,6 @@
       auto-allocate-uids = true;
       max-jobs = "auto";
     };
-  #package = pkgs.nixVersions.stable;
+  package = pkgs.nix;
   };
 }
