@@ -55,11 +55,11 @@ interval=15
 # The second parameter overrides the mixer selection
 # See the script for details.
 
-[volume]
+[volume-control]
 #label=♪
 #instance=PCM
-command=if [ $button ]; then pavucontrol; else $SCRIPTS/volume-script.sh
-interval = 1
+command=if [ $button ]; then pavucontrol & disown; else $SCRIPTS/volume-script.sh; fi
+interval=1
 
 # Memory usage
 #
