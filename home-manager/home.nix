@@ -1,5 +1,7 @@
-{ config, pkgs, ... }:
-
+{ config, pkgs, lib, inputs, ... }:
+#let
+#  nixGLIntel = inputs.nixGL.packages."${pkgs.system}".nixGLIntel;
+#in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -27,6 +29,10 @@
   	./apps/i3
 	./apps/nixvim
 	./apps/alacritty
+	(builtins.fetchurl {
+	  url = "https://raw.githubusercontent.com/Smona/home-manager/nixgl-compat/modules/misc/nixgl.nix";
+	  sha256 = "f14874544414b9f6b068cfb8c19d2054825b8531f827ec292c2b0ecc5376b305";
+        })
   ];
 
 
@@ -42,8 +48,10 @@
 	mujoco
 	freecad
 	mesa
-	alacritty
+#	nixGLIntel
+	(config.lib.nixGL.wrap alacritty)
 	gh
+	pavucontrol
 	zenith-nvidia
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your
@@ -52,7 +60,7 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
-
+#  nixGL.prefix = "${nixGLIntel}/bin/nixGLIntel";
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {

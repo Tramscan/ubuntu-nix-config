@@ -25,9 +25,10 @@
 # The top properties below are applied to every block, but can be overridden.
 # Each block command defaults to the script name to avoid boilerplate.
 command=/usr/share/i3blocks/$BLOCK_NAME
-separator = false
+full_text = <span background ="#242424"></span>
+separator = ""
 separator_block_width=15
-markup=none
+markup=pango
 
 [speedblock]
 command=$SCRIPTS/speedtestline.sh
@@ -61,6 +62,7 @@ instance=Master
 #instance=PCM
 interval=once
 signal=10
+command=pavucontrol
 
 # Memory usage
 #

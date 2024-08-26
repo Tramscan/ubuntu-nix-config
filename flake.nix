@@ -11,11 +11,16 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixGL = {
+      url = "github:nix-community/nixGL/310f8e49a149e4c9ea52f1adf70cdc768ec53f8a";
+      inputs.nixpkgs.follows = "nixGL";
+    };
   };
   outputs = {
     nixpkgs,
     home-manager,
     nixvim,
+    nixGL,
     ...
   }: let
     # system = "aarch64-linux"; If you are running on ARM powered computer
