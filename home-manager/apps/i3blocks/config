@@ -56,13 +56,10 @@ interval=15
 # See the script for details.
 
 [volume]
-label=VOL
 #label=♪
-instance=Master
 #instance=PCM
-interval=once
-signal=10
-command=pavucontrol
+command=if [ $button ]; then pavucontrol; else $SCRIPTS/volume-script.sh
+interval = 1
 
 # Memory usage
 #
