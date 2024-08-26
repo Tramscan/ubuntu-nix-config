@@ -15,12 +15,17 @@
       url = "github:nix-community/nixGL/310f8e49a149e4c9ea52f1adf70cdc768ec53f8a";
       inputs.nixpkgs.follows = "nixGL";
     };
+    rust_overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = {
     nixpkgs,
     home-manager,
     nixvim,
     nixGL,
+    rust-overlay,
     ...
   }: let
     # system = "aarch64-linux"; If you are running on ARM powered computer
@@ -32,7 +37,7 @@
         inherit pkgs;
         modules = [
           ./home-manager/home.nix
-	  nixvim.homeManagerModules.nixvim
+	  nixvim.homeManagerModules.nixvim 
         ];
       };
     };
