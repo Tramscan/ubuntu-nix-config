@@ -203,11 +203,11 @@
         "type": "github"
       }
     },
-    "nixGL": {
+    "nixgl": {
       "inputs": {
         "flake-utils": "flake-utils",
         "nixpkgs": [
-          "nixGL"
+          "nixgl"
         ]
       },
       "locked": {
@@ -221,7 +221,6 @@
       "original": {
         "owner": "nix-community",
         "repo": "nixGL",
-        "rev": "310f8e49a149e4c9ea52f1adf70cdc768ec53f8a",
         "type": "github"
       }
     },
@@ -294,7 +293,7 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
-        "nixGL": "nixGL",
+        "nixgl": "nixgl",
         "nixpkgs": "nixpkgs",
         "nixvim": "nixvim"
       }

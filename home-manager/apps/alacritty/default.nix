@@ -15,6 +15,12 @@
     env = {
       WINIT_X11_SCALE_FACTOR = "2";
     };
-
+    ###
+    #debug = {
+    #  persistent_logging = true;
+    #  print_events = true;
+    #  prefer_egl = true;
+    #};
+    ###
   };
 }

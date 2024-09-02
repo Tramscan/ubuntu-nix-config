@@ -11,26 +11,24 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixGL = {
-      url = "github:nix-community/nixGL/310f8e49a149e4c9ea52f1adf70cdc768ec53f8a";
-      inputs.nixpkgs.follows = "nixGL";
-    };
-    rust_overlay = {
-      url = "github:oxalica/rust-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
+    nixgl = {
+      url = "github:nix-community/nixGL";
+      inputs.nixpkgs.follows = "nixgl";
     };
   };
   outputs = {
+    self,
     nixpkgs,
     home-manager,
     nixvim,
-    nixGL,
-    rust-overlay,
+    nixgl,
     ...
   }: let
     # system = "aarch64-linux"; If you are running on ARM powered computer
-    system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
+    pkgs = import nixpkgs {
+      system = "x86_64-linux";
+      overlays = [ nixgl.overlay ];
+    };
   in {
     homeConfigurations = {
       nick = home-manager.lib.homeManagerConfiguration {
@@ -41,6 +39,7 @@
         ];
       };
     };
+
   };
 }
 

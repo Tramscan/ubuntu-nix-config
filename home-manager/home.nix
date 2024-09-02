@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, nixpkgs, lib, inputs, self, ... }:
 #let
 #  nixGLIntel = inputs.nixGL.packages."${pkgs.system}".nixGLIntel;
 #in
@@ -7,6 +7,7 @@
   # manage.
   home.username = "nick";
   home.homeDirectory = "/home/nick";
+  
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -24,6 +25,10 @@
 #		allowReboot = false;
 #		};
 #	};
+  
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
 
   imports = [
   	./apps/i3
@@ -48,8 +53,7 @@
 	mujoco
 	freecad
 	mesa
-#	nixGLIntel
-	(config.lib.nixGL.wrap alacritty)
+	alacritty
 	gh
 	pavucontrol
 	zenith-nvidia
