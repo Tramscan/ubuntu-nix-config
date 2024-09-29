@@ -13,21 +13,15 @@
     };
     nixgl = {
       url = "github:nix-community/nixGL";
-      inputs.nixpkgs.follows = "nixgl";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = {
-    self,
-    nixpkgs,
-    home-manager,
-    nixvim,
-    nixgl,
-    ...
-  }: let
-    # system = "aarch64-linux"; If you are running on ARM powered computer
+  outputs = { self, nixpkgs, home-manager, nixvim, nixgl, ... }@inputs: 
+  let
+    system = "x86_64-linux";
     pkgs = import nixpkgs {
-      system = "x86_64-linux";
-      overlays = [ nixgl.overlay ];
+      inherit system;
+      config.allowUnfree = true;
     };
   in {
     homeConfigurations = {
@@ -35,11 +29,13 @@
         inherit pkgs;
         modules = [
           ./home-manager/home.nix
-	  nixvim.homeManagerModules.nixvim 
+          nixvim.homeManagerModules.nixvim
         ];
+        extraSpecialArgs = {
+          inherit inputs nixgl;
+        };
       };
     };
-
   };
 }
 

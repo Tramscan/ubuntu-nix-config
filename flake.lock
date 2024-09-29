@@ -207,7 +207,7 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "nixpkgs": [
-          "nixgl"
+          "nixpkgs"
         ]
       },
       "locked": {

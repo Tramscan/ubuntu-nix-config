@@ -1,8 +1,19 @@
-{ config, pkgs, nixpkgs, lib, inputs, self, ... }:
-#let
-#  nixGLIntel = inputs.nixGL.packages."${pkgs.system}".nixGLIntel;
-#in
-{
+{ config, pkgs, lib, inputs, nixgl, ... }:
+
+let
+  nixGLPackage = nixgl.packages.${pkgs.system}.nixGLIntel;
+  nixGLWrap = pkg: pkgs.runCommand "${pkg.name}-nixgl-wrapper" {} ''
+    mkdir -p $out/bin
+    for bin in ${pkg}/bin/*; do
+      wrapped_bin=$out/bin/$(basename $bin)
+      echo "#!${pkgs.bash}/bin/bash" > $wrapped_bin
+      echo "exec ${nixGLPackage}/bin/nixGLNvidia $bin \"\$@\"" >> $wrapped_bin
+      chmod +x $wrapped_bin
+    done
+  '';
+  wrappedAlacritty = nixGLWrap pkgs.alacritty;
+in
+rec {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "nick";
@@ -34,10 +45,10 @@
   	./apps/i3
 	./apps/nixvim
 	./apps/alacritty
-	(builtins.fetchurl {
-	  url = "https://raw.githubusercontent.com/Smona/home-manager/nixgl-compat/modules/misc/nixgl.nix";
-	  sha256 = "f14874544414b9f6b068cfb8c19d2054825b8531f827ec292c2b0ecc5376b305";
-        })
+	#(builtins.fetchurl {
+	#  url = "https://raw.githubusercontent.com/Smona/home-manager/nixgl-compat/modules/misc/nixgl.nix";
+	#  sha256 = "f14874544414b9f6b068cfb8c19d2054825b8531f827ec292c2b0ecc5376b305";
+        #})
   ];
 
 
@@ -53,7 +64,8 @@
 	mujoco
 	freecad
 	mesa
-	alacritty
+	nixGLPackage
+	wrappedAlacritty
 	gh
 	pavucontrol
 	zenith-nvidia
@@ -64,7 +76,6 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
-#  nixGL.prefix = "${nixGLIntel}/bin/nixGLIntel";
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
@@ -117,5 +128,15 @@
       trusted-users = [ "nick" ];
     };
   package = pkgs.nix;
+  };
+
+  # Remove the nixpkgs.overlays section if it exists
+
+  # Your remaining configurations...
+
+  # Configure Alacritty
+  programs.alacritty = {
+    enable = true;
+    package = wrappedAlacritty;
   };
 }
