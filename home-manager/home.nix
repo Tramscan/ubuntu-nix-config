@@ -72,7 +72,7 @@ rec {
 	pavucontrol
 	zenith-nvidia
 	obsidian
-	hyprland
+	# hyprland
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your
     # # environment:
@@ -131,7 +131,7 @@ rec {
       max-jobs = "auto";
       trusted-users = [ "nick" ];
     };
-  package = pkgs.nix;
+    package = pkgs.nix;
   };
 
   # Remove the nixpkgs.overlays section if it exists

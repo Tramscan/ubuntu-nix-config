@@ -1,31 +1,36 @@
-wayland.windowManager.hyprland = {
-  enable = true;
-  settings = {
-    "$mod" = "SUPER";
-    bind = [
-    "$mod, ENTER, exec, alacritty"
-    "$mod, Q, killactive"
-    "$mod, D, exec, wofi --show drun"
-    ];
+{ config, pkgs, ...}:
 
-    general = {
-      gaps_in = 5;
+{
+  wayland.windowManager.hyprland = {
+    enable = true;
+    settings = {
+      "$mod" = "SUPER";
+      bind = [
+      "$mod, ENTER, exec, alacritty"
+      "$mod, Q, killactive"
+      "$mod, D, exec, wofi --show drun"
+      ];
+
+      general = {
+	gaps_in = 5;
+      };
+
+      decoration = {
+	rounding = 10;
+      };
+
+      animations = {
+	enabled = true;
+      };
+
+      exec-once = [
+	"waybar"
+	"mako"
+	"nm-applet --indicator"
+      ];
     };
 
-    decoration = {
-      rounding = 10;
-    };
-
-    animations = {
-      enabled = true;
-    };
-
-    exec-once = [
-      "waybar"
-      "mako"
-      "nm-applet --indicator"
-    ];
-  }
+  };
 
   gtk = {
     enable = true;
@@ -41,7 +46,5 @@ wayland.windowManager.hyprland = {
     name = "Bibata-Modern-Classic";
     size = 24;
   };
-
-    programs.i3.enable = false;
 
 }
