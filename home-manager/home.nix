@@ -143,4 +143,8 @@ rec {
     enable = true;
     package = wrappedAlacritty;
   };
+
+  programs.hyprland = {
+    enable = true;
+  };
 }
