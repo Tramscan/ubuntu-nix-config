@@ -10,6 +10,18 @@
       "$mod, Q, killactive"
       "$mod, D, exec, wofi --show drun"
       ];
+      env = [
+        "LIBVA_DRIVER_NAME,nvidia"
+        "__GLX_VENDOR_LIBRARY_NAME,nvidia"
+        # It's also often helpful to include these for broader Wayland compatibility
+        "NIXOS_OZONE_WL,1"      # For Electron apps (VSCode, Discord, etc.)
+        "QT_QPA_PLATFORM,wayland" # For Qt apps
+        "GDK_BACKEND,wayland"     # For GTK apps
+        "XDG_CURRENT_DESKTOP,Hyprland" # Helps some apps recognize the DE
+        "XDG_SESSION_TYPE,wayland" # Indicates Wayland session
+        "XDG_SESSION_DESKTOP,Hyprland" # Indicates Wayland session
+      ];
+
 
       general = {
 	gaps_in = 5;
@@ -22,11 +34,6 @@
       animations = {
 	enabled = true;
       };
-
-      env = [
-      "LIBVA_DRIVER_NAME,nvidia",
-      "__GLX_VENDOR_LIBRARY_NAME,nvidia"
-      ];
 
       exec-once = [
 	"waybar"
