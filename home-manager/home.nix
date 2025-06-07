@@ -44,11 +44,15 @@ rec {
   imports = [
   	./apps/i3
 	./apps/nixvim
+<<<<<<< HEAD
 	./apps/alacritty
 	#(builtins.fetchurl {
 	#  url = "https://raw.githubusercontent.com/Smona/home-manager/nixgl-compat/modules/misc/nixgl.nix";
 	#  sha256 = "f14874544414b9f6b068cfb8c19d2054825b8531f827ec292c2b0ecc5376b305";
         #})
+=======
+	./apps/hyprland
+>>>>>>> 92069c4 (added hyprland)
   ];
 
 
@@ -59,17 +63,22 @@ rec {
   	neofetch
 	vesktop
 	picom
-	i3blocks
+	# i3blocks
+	waybar
 	protonup-qt
 	mujoco
 	freecad
 	mesa
+<<<<<<< HEAD
 	nixGLPackage
 	wrappedAlacritty
 	gh
 	pavucontrol
 	zenith-nvidia
 	obsidian
+=======
+	hyprland
+>>>>>>> 92069c4 (added hyprland)
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your
     # # environment:

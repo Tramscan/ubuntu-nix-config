@@ -4,7 +4,12 @@
   programs.nixvim = {
     enable = true;
     defaultEditor = true;
-
+    opts = {
+      number = true;
+      relativenumber = true;
+      shiftwidth = 2;
+      foldmethod = "indent";
+    };
     performance = {
       combinePlugins = {
         enable = true;
@@ -17,7 +22,7 @@
 
     viAlias = true;
     vimAlias = true;
-
+    
     luaLoader.enable = true;
   };
 }
