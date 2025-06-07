@@ -16,6 +16,7 @@ in
 rec {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
+  home.username = "nick";
   home.homeDirectory = "/home/nick";
   
 
