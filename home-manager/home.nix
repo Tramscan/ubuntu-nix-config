@@ -16,7 +16,36 @@ in
 rec {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "nick";
+Okay, this error The option programs.hyprland' does not exist is a crucial one that indicates a fundamental misunderstanding of how the hyprland module is structured in Home Manager.
+
+Let's look at the error message again:
+
+error: The option `programs.hyprland' does not exist. Definition values:
+- In `/nix/store/1hnxi114026arcnw0y3vc9c8hxaaxg34-source/home-manager/home.nix':
+    {
+      enable = true;
+    }
+
+This tells you that Home Manager was expecting a programs.hyprland option, but it found programs.hyprland = { enable = true; } in your home.nix, which is where you put it.
+
+The Problem:
+
+The Hyprland module in Home Manager is not under programs.hyprland. It's under wayland.windowManager.hyprland.
+
+You currently have this at the very end of your home.nix:
+Nix
+
+  programs.hyprland = {
+    enable = true;
+  };
+
+This is the incorrect path for the option.
+
+The Fix:
+
+You need to change programs.hyprland to wayland.windowManager.hyprland.
+
+However, you also have imports = [ ./apps/hyprland ]; in your home.nix. This means the main Hyprland configura  home.username = "nick";
   home.homeDirectory = "/home/nick";
   
 
@@ -144,7 +173,4 @@ rec {
     package = wrappedAlacritty;
   };
 
-  programs.hyprland = {
-    enable = true;
-  };
 }
