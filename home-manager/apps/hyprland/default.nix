@@ -13,11 +13,6 @@
       XDG_CURRENT_DESKTOP = "Hyprland"; # Helps some apps recognize the DE
       XDG_SESSION_TYPE = "wayland"; # Indicates Wayland session
       XDG_SESSION_DESKTOP = "Hyprland"; # Indicates Wayland session
-      AQ_DRM_DEVICES = "/dev/dri/pci-0000:01:00.0-card:/dev/dri/pci-0000:11:00.0-card";
-      WLR_DRM_DEVICES = "/dev/dri/pci-0000:01:00.0-card:/dev/dri/pci-0000:11:00.0-card";
-      WLR_NO_CC_VERSION = "1";
-      WLR_RENDERER_ALLOW_SOFTWARE = "1";
-      WLR_NO_HARDWARE_CURSORS = "1";
   };
 
   wayland.windowManager.hyprland = {
@@ -42,7 +37,7 @@
       #  "WLR_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0"
      # ];
 
-      prefer_zero_gpu = true;
+      # prefer_zero_gpu = true;
 
 
       general = {
