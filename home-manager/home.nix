@@ -72,7 +72,6 @@ rec {
 	pavucontrol
 	zenith-nvidia
 	obsidian
-	nvidia
 	qt5-wayland
 	libva
 	# hyprland
