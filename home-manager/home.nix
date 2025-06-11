@@ -72,7 +72,6 @@ rec {
 	pavucontrol
 	zenith-nvidia
 	obsidian
-	qt5-wayland
 	libva
 	# hyprland
     # # You can also create simple shell scripts directly inside your
