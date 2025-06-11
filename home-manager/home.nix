@@ -1,13 +1,13 @@
 { config, pkgs, lib, inputs, nixgl, ... }:
 
 let
-  nixGLPackage = nixgl.packages.${pkgs.system}.nixGLNvidia;
+  nixGLPackage = nixgl.packages.${pkgs.system}.nixGLIntel;
   nixGLWrap = pkg: pkgs.runCommand "${pkg.name}-nixgl-wrapper" {} ''
     mkdir -p $out/bin
     for bin in ${pkg}/bin/*; do
       wrapped_bin=$out/bin/$(basename $bin)
       echo "#!${pkgs.bash}/bin/bash" > $wrapped_bin
-      echo "exec ${nixGLPackage}/bin/nixGLNvidia $bin \"\$@\"" >> $wrapped_bin
+      echo "exec ${nixGLPackage}/bin/nixGLIntel $bin \"\$@\"" >> $wrapped_bin
       chmod +x $wrapped_bin
     done
   '';
