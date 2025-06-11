@@ -2,6 +2,8 @@
 
 {
   home.sessionVariables = {
+      WLR_RENDERER = "vulkan";
+      GBM_BACKEND = "nvidia-drm";
       LIBVA_DRIVER_NAME = "nvidia";
       __GLX_VENDOR_LIBRARY_NAME = "nvidia";
       # It's also often helpful to include these for broader Wayland compatibility
