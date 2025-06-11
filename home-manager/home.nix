@@ -120,6 +120,17 @@ rec {
     VISUAL = "nvim";
     TERMINAL = "alacritty";
     LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
+
+    #Hyprland NVIDIA Variables
+    WLR_RENDERER = "vulkan";
+    GBM_BACKEND = "nvidia-drm";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    LIBVA_DRIVER_NAME = "nvidia"; # For hardware video acceleration
+    QT_QPA_PLATFORM = "wayland";
+    GDK_BACKEND = "wayland";
+    XDG_CURRENT_DESKTOP = "Hyprland";
+    XDG_SESSION_TYPE = "wayland";
+    XDG_SESSION_DESKTOP = "Hyprland";
   };
 
   # Let Home Manager install and manage itself.
