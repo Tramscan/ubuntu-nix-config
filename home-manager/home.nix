@@ -75,8 +75,8 @@ rec {
 	mujoco
 	freecad
 	mesa
-	nixGLPackage
-	wrappedAlacritty
+	#nixGLPackage
+	#wrappedAlacritty
 	gh
 	pavucontrol
 	zenith-nvidia
