@@ -11,6 +11,9 @@ let
       chmod +x $wrapped_bin
     done
   '';
+  pkgsMesa24_2_7 = import inputs.nixpkgs-mesa-24-2-7 {
+    inherit (pkgs) system;
+  };
   wrappedAlacritty = nixGLWrap pkgs.alacritty;
 in
 rec {
@@ -41,6 +44,12 @@ rec {
     allowUnfree = true;
   };
 
+  nixpkgs.overlays = [
+    (final: prev: {
+      mesa = pkgsMesa24_2_7.mesa;
+    })
+  ];
+
   imports = [
   	./apps/i3
 	./apps/nixvim
@@ -65,7 +74,7 @@ rec {
 	protonup-qt
 	mujoco
 	freecad
-	mesa
+#	mesa
 	nixGLPackage
 	wrappedAlacritty
 	gh
@@ -132,6 +141,7 @@ rec {
     XDG_SESSION_TYPE = "wayland";
     XDG_SESSION_DESKTOP = "Hyprland";
     AQ_DRM_DEVICES = "/dev/dri/card1";
+    WLR_DRM_DEVICES = "/dev/dri/card1";
   };
 
   # Let Home Manager install and manage itself.

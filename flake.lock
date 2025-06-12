@@ -136,6 +136,23 @@
         "type": "github"
       }
     },
+    "nixpkgs-mesa-24-2-7": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1731570056,
+        "narHash": "sha256-pg3N9Oqr4WeAfrLlt+rMThBfWNLr1ZDkKBidJGwxdV8=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "459a925026a28f5a762d648108c4d21068d080e3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "459a925026a28f5a762d648108c4d21068d080e3",
+        "type": "github"
+      }
+    },
     "nixvim": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -187,6 +204,7 @@
         "home-manager": "home-manager",
         "nixgl": "nixgl",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-mesa-24-2-7": "nixpkgs-mesa-24-2-7",
         "nixvim": "nixvim"
       }
     },
