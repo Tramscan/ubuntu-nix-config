@@ -13,7 +13,6 @@
       XDG_CURRENT_DESKTOP = "Hyprland"; # Helps some apps recognize the DE
       XDG_SESSION_TYPE = "wayland"; # Indicates Wayland session
       XDG_SESSION_DESKTOP = "Hyprland"; # Indicates Wayland session
-      AQ_DRM_DEVICES = "/dev/dri/by-path/pci-0000:01:00.0-card:/dev/dri/by-path/pci-0000:11:00.0-card:/dev/dri/by-path/pci-0000:01:00.0-platform-simple-framebuffer.0-card";
   };
 
   wayland.windowManager.hyprland = {
