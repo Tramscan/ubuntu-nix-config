@@ -1,20 +1,20 @@
 { config, pkgs, lib, inputs, nixgl, ... }:
 
 let
-  #nixGLPackage = nixgl.packages.${pkgs.system}.nixGLIntel;
-  #nixGLWrap = pkg: pkgs.runCommand "${pkg.name}-nixgl-wrapper" {} ''
-   # mkdir -p $out/bin
-   # for bin in ${pkg}/bin/*; do
-   #   wrapped_bin=$out/bin/$(basename $bin)
-   #   echo "#!${pkgs.bash}/bin/bash" > $wrapped_bin
-   #   echo "exec ${nixGLPackage}/bin/nixGLIntel $bin \"\$@\"" >> $wrapped_bin
-   #   chmod +x $wrapped_bin
-   # done
-  #'';
+  nixGLPackage = nixgl.packages.${pkgs.system}.nixGLIntel;
+  nixGLWrap = pkg: pkgs.runCommand "${pkg.name}-nixgl-wrapper" {} ''
+    mkdir -p $out/bin
+    for bin in ${pkg}/bin/*; do
+      wrapped_bin=$out/bin/$(basename $bin)
+      echo "#!${pkgs.bash}/bin/bash" > $wrapped_bin
+      echo "exec ${nixGLPackage}/bin/nixGLIntel $bin \"\$@\"" >> $wrapped_bin
+      chmod +x $wrapped_bin
+    done
+  '';
   pkgsMesa24_2_7 = import inputs.nixpkgs-mesa-24-2-7 {
     inherit (pkgs) system;
   };
-  #wrappedAlacritty = nixGLWrap pkgs.alacritty;
+  wrappedAlacritty = nixGLWrap pkgs.alacritty;
 in
 rec {
   # Home Manager needs a bit of information about you and the paths it should
@@ -75,8 +75,8 @@ rec {
 	mujoco
 	freecad
 	mesa
-	#nixGLPackage
-	#wrappedAlacritty
+	nixGLPackage
+	wrappedAlacritty
 	gh
 	pavucontrol
 	zenith-nvidia
@@ -165,7 +165,7 @@ rec {
   # Configure Alacritty
   programs.alacritty = {
     enable = true;
-    #package = wrappedAlacritty;
+    package = wrappedAlacritty;
   };
 
 }
