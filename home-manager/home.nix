@@ -131,16 +131,16 @@ rec {
     LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
 
     #Hyprland NVIDIA Variables
-    WLR_RENDERER = "vulkan";
-    GBM_BACKEND = "nvidia-drm";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    LIBVA_DRIVER_NAME = "nvidia"; # For hardware video acceleration
-    QT_QPA_PLATFORM = "wayland";
-    GDK_BACKEND = "wayland";
-    XDG_CURRENT_DESKTOP = "Hyprland";
-    XDG_SESSION_TYPE = "wayland";
-    XDG_SESSION_DESKTOP = "Hyprland";
-    AQ_DRM_DEVICES = "/dev/dri/by-path/pci-0000:01:00.0-card:/dev/dri/by-path/pci-0000:11:00.0-card";
+    #WLR_RENDERER = "vulkan";
+    #GBM_BACKEND = "nvidia-drm";
+    #__GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    #LIBVA_DRIVER_NAME = "nvidia"; # For hardware video acceleration
+    #QT_QPA_PLATFORM = "wayland";
+    #GDK_BACKEND = "wayland";
+    #XDG_CURRENT_DESKTOP = "Hyprland";
+    #XDG_SESSION_TYPE = "wayland";
+    #XDG_SESSION_DESKTOP = "Hyprland";
+    #AQ_DRM_DEVICES = "/dev/dri/by-path/pci-0000:01:00.0-card:/dev/dri/by-path/pci-0000:11:00.0-card";
     #WLR_DRM_DEVICES = "/dev/dri/by-path/pci-0000:01:00.0-card:/dev/dri/by-path/pci-0000:11:00.0-card";
   };
 

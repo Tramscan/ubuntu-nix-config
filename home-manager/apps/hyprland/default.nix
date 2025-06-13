@@ -18,7 +18,7 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
-    package = config.lib.nixgl.wrap pkgs.hyprland;
+    package = config.lib.nixGL.wrap pkgs.hyprland;
     settings = {
       "$mod" = "SUPER";
       bind = [
