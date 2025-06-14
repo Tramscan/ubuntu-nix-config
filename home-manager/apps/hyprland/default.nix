@@ -32,7 +32,7 @@
       #  "NIXOS_OZONE_WL,1"      # For Electron apps (VSCode, Discord, etc.)
       #  "QT_QPA_PLATFORM,wayland" # For Qt apps
       #  "GDK_BACKEND,wayland"     # For GTK apps
-	"GBM_BACKEND,nvidia-drm"
+	#"GBM_BACKEND,nvidia-drm"
 	"WLR_RENDERER,vulkan"
       #  "XDG_CURRENT_DESKTOP,Hyprland" # Helps some apps recognize the DE
       #  "XDG_SESSION_TYPE,wayland" # Indicates Wayland session
