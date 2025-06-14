@@ -83,6 +83,10 @@ rec {
 	obsidian
 	libva
 	egl-wayland
+	wayland
+	wayland-protocols
+	libglvnd
+	xwayland
 	# hyprland
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your
