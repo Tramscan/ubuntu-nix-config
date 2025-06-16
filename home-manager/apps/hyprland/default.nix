@@ -1,5 +1,17 @@
 { config, pkgs, lib, inputs, nixgl, ...}:
 
+let
+  nixGLWrap = pkg: pkgs.runCommand "${pkg.name}-nixgl-wrapper" {} ''
+    mkdir -p $out/bin
+    for bin in ${pkg}/bin/*; do
+      wrapped_bin=$out/bin/$(basename $bin)
+      echo "#!${pkgs.bash}/bin/bash" > $wrapped_bin
+      echo "exec ${nixgl.packages.${pkgs.system}.nixGLDefault}/bin/nixGLDefault $bin \"\$@\"" >> $wrapped_bin
+      chmod +x $wrapped_bin
+    done
+  '';
+  wrappedHyprland = nixGLWrap pkgs.hyprland;
+in
 {
   home.sessionVariables = {
       WLR_RENDERER = "vulkan";
@@ -17,7 +29,8 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
-    package = config.lib.nixGL.wrap pkgs.hyprland;
+    package = wrappedHyprland;
+   # xwayland.enable = true;
     settings = {
       "$mod" = "SUPER";
       bind = [

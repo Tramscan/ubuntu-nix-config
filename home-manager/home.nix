@@ -1,13 +1,13 @@
 { config, pkgs, lib, inputs, nixgl, ... }:
 
 let
-  nixGLPackage = nixgl.packages.${pkgs.system}.nixGLIntel;
+  nixGLPackage = nixgl.packages.${pkgs.system}.nixGLDefault;
   nixGLWrap = pkg: pkgs.runCommand "${pkg.name}-nixgl-wrapper" {} ''
     mkdir -p $out/bin
     for bin in ${pkg}/bin/*; do
       wrapped_bin=$out/bin/$(basename $bin)
       echo "#!${pkgs.bash}/bin/bash" > $wrapped_bin
-      echo "exec ${nixGLPackage}/bin/nixGLIntel $bin \"\$@\"" >> $wrapped_bin
+      echo "exec ${nixGLPackage}/bin/nixGLDefault $bin \"\$@\"" >> $wrapped_bin
       chmod +x $wrapped_bin
     done
   '';
@@ -92,7 +92,7 @@ rec {
     # # configuration. For example, this adds a command 'my-hello' to your
     # # environment:
     # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
+    #   echo "Helloauto.nixGLDefault: Tries to auto-detect and install Nvidia, if not, fallback to mesa. Recommended. Invoke with nixGL program., ${config.home.username}!"
     # '')
   ];
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -150,7 +150,7 @@ rec {
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
+  
   nix = {
     settings = {
       experimental-features = [ "nix-command" "flakes" "auto-allocate-uids"];
@@ -158,6 +158,7 @@ rec {
       auto-allocate-uids = true;
       max-jobs = "auto";
       trusted-users = [ "nick" ];
+      extra-experimental-features = ["auto-allocate-uids"];
     };
     package = pkgs.nix;
   };
