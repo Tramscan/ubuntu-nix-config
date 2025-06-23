@@ -1,13 +1,13 @@
 { config, pkgs, lib, inputs, nixgl, ... }:
 
 let
-  nixGLPackage = nixgl.packages.${pkgs.system}.nixGLDefault;
+  nixGLPackage = nixgl.packages.${pkgs.system}.nixGLNvidia;
   nixGLWrap = pkg: pkgs.runCommand "${pkg.name}-nixgl-wrapper" {} ''
     mkdir -p $out/bin
     for bin in ${pkg}/bin/*; do
       wrapped_bin=$out/bin/$(basename $bin)
       echo "#!${pkgs.bash}/bin/bash" > $wrapped_bin
-      echo "exec ${nixGLPackage}/bin/nixGLDefault $bin \"\$@\"" >> $wrapped_bin
+      echo "exec ${nixGLPackage}/bin/nixGLNvidia $bin \"\$@\"" >> $wrapped_bin
       chmod +x $wrapped_bin
     done
   '';
@@ -15,6 +15,7 @@ let
     inherit (pkgs) system;
   };
   wrappedAlacritty = nixGLWrap pkgs.alacritty;
+  hyprlandModule = import ./apps/hyprland/default.nix { inherit pkgs inputs nixgl config lib; };
 in
 rec {
   # Home Manager needs a bit of information about you and the paths it should
@@ -75,7 +76,7 @@ rec {
 	mujoco
 	freecad
 	mesa
-	nixGLPackage
+	#nixGLPackage
 	wrappedAlacritty
 	gh
 	pavucontrol
@@ -87,6 +88,7 @@ rec {
 	wayland-protocols
 	libglvnd
 	xwayland
+	#hyprlandModule.hyprlandWrapper
 	# hyprland
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your

@@ -1,18 +1,16 @@
 { config, pkgs, lib, inputs, nixgl, ...}:
 
 let
-  nixGLWrap = pkg: pkgs.runCommand "${pkg.name}-nixgl-wrapper" {} ''
-    mkdir -p $out/bin
-    for bin in ${pkg}/bin/*; do
-      wrapped_bin=$out/bin/$(basename $bin)
-      echo "#!${pkgs.bash}/bin/bash" > $wrapped_bin
-      echo "exec ${nixgl.packages.${pkgs.system}.nixGLDefault}/bin/nixGLDefault $bin \"\$@\"" >> $wrapped_bin
-      chmod +x $wrapped_bin
-    done
+  nixGL = inputs.nixgl.packages.${pkgs.system}.nixGLNvidia;
+  hyprlandWrapper = pkgs.writeShellScriptBin "hyprland-wrapped" ''
+    export GBM_BACKEND=nvidia-drm
+    export LIBVA_DRIVER_NAME=nvidia
+    export __GLX_VENDOR_LIBRARY_NAME=nvidia
+    exec ${nixGL}/bin/nixGLNvidia ${pkgs.hyprland}/bin/Hyprland "$@"
   '';
-  wrappedHyprland = nixGLWrap pkgs.hyprland;
 in
 {
+  home.packages = [ hyprlandWrapper ];
   home.sessionVariables = {
       WLR_RENDERER = "vulkan";
       GBM_BACKEND = "nvidia-drm";
@@ -29,8 +27,8 @@ in
 
   wayland.windowManager.hyprland = {
     enable = true;
-    package = wrappedHyprland;
-   # xwayland.enable = true;
+    package = pkgs.hyprland;
+    xwayland.enable = true;
     settings = {
       "$mod" = "SUPER";
       bind = [
@@ -39,9 +37,9 @@ in
       "$mod, D, exec, wofi --show drun"
       ];
       env = [
-        "LIBVA_DRIVER_NAME,nvidia"
-        "__GLX_VENDOR_LIBRARY_NAME,nvidia"
-        # It's also often helpful to include these for broader Wayland compatibility
+	"LIBVA_DRIVER_NAME,nvidia"
+	"__GLX_VENDOR_LIBRARY_NAME,nvidia"
+	# It's also often helpful to include these for broader Wayland compatibility
       #  "NIXOS_OZONE_WL,1"      # For Electron apps (VSCode, Discord, etc.)
       #  "QT_QPA_PLATFORM,wayland" # For Qt apps
       #  "GDK_BACKEND,wayland"     # For GTK apps
