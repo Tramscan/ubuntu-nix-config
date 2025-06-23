@@ -1,28 +1,38 @@
 { config, pkgs, lib, inputs, nixgl, ... }:
 
 let
-  nvidiaVersion = "535.230.02"; #will need to manually change this if new system -  try to probably find a workaround in the future
-  nixGLPackage = nixgl.packages.${pkgs.system}.nixGLNvidia.override { 
-    nvidiaVersion = nvidiaVersion;
-  };
+let
+  # Create custom nixGL wrapper with explicit NVIDIA version
+  nixGLWithVersion = let
+    nvidiaVersion = "535.154.05"; # REPLACE WITH YOUR VERSION
+    nixGLBase = nixgl.packages.${pkgs.system}.nixGLNvidia;
+  in pkgs.runCommand "nixGLNvidia-custom" {} ''
+    mkdir -p $out/bin
+    cat > $out/bin/nixGLNvidia <<EOF
+    #!${pkgs.bash}/bin/bash
+    export NVIDIA_DRIVER_VERSION=${nvidiaVersion}
+    exec ${nixGLBase}/bin/nixGLNvidia "\$@"
+    EOF
+    chmod +x $out/bin/nixGLNvidia
+  '';
+
   nixGLWrap = pkg: pkgs.runCommand "${pkg.name}-nixgl-wrapper" {} ''
     mkdir -p $out/bin
     for bin in ${pkg}/bin/*; do
       wrapped_bin=$out/bin/$(basename $bin)
       echo "#!${pkgs.bash}/bin/bash" > $wrapped_bin
-      echo "exec ${nixGLPackage}/bin/nixGLNvidia $bin \"\$@\"" >> $wrapped_bin
+      echo "exec ${nixGLWithVersion}/bin/nixGLNvidia $bin \"\$@\"" >> $wrapped_bin
       chmod +x $wrapped_bin
     done
   '';
-  pkgsMesa24_2_7 = import inputs.nixpkgs-mesa-24-2-7 {
-    inherit (pkgs) system;
-  };
+  
   wrappedAlacritty = nixGLWrap pkgs.alacritty;
-  hyprlandModule = import ./apps/hyprland/default.nix { 
-    inherit pkgs inputs nixgl config lib;
-    nvidiaVersion = nvidiaVersion;
+  
+  hyprlandModule = import ./apps/hyprland/default.nix {
+    inherit pkgs inputs config lib;
+    nixGLWithVersion = nixGLWithVersion; # Pass custom wrapper
   };
-in
+in {
 rec {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
