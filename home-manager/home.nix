@@ -1,7 +1,10 @@
 { config, pkgs, lib, inputs, nixgl, ... }:
 
 let
-  nixGLPackage = nixgl.packages.${pkgs.system}.nixGLNvidia;
+  nvidiaVersion = "535.230.02"; #will need to manually change this if new system -  try to probably find a workaround in the future
+  nixGLPackage = nixgl.packages.${pkgs.system}.nixGLNvidia.override { 
+    nvidiaVersion = nvidiaVersion;
+  };
   nixGLWrap = pkg: pkgs.runCommand "${pkg.name}-nixgl-wrapper" {} ''
     mkdir -p $out/bin
     for bin in ${pkg}/bin/*; do
@@ -15,7 +18,10 @@ let
     inherit (pkgs) system;
   };
   wrappedAlacritty = nixGLWrap pkgs.alacritty;
-  hyprlandModule = import ./apps/hyprland/default.nix { inherit pkgs inputs nixgl config lib; };
+  hyprlandModule = import ./apps/hyprland/default.nix { 
+    inherit pkgs inputs nixgl config lib;
+    nvidiaVersion = nvidiaVersion;
+  };
 in
 rec {
   # Home Manager needs a bit of information about you and the paths it should

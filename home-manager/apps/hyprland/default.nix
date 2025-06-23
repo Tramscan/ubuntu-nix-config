@@ -1,7 +1,9 @@
-{ config, pkgs, lib, inputs, nixgl, ...}:
+{ config, pkgs, lib, inputs, nixgl, nvidiaVersion, ...}:
 
 let
-  nixGL = inputs.nixgl.packages.${pkgs.system}.nixGLNvidia;
+  nixGL = inputs.nixgl.packages.${pkgs.system}.nixGLNvidia.override {
+    nvidiaVersion = nvidiaVersion;
+  };
   hyprlandWrapper = pkgs.writeShellScriptBin "hyprland-wrapped" ''
     export GBM_BACKEND=nvidia-drm
     export LIBVA_DRIVER_NAME=nvidia
