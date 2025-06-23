@@ -32,7 +32,6 @@ let
     nixGLWithVersion = nixGLWithVersion; # Pass custom wrapper
   };
 in {
-rec {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "nick";
