@@ -27,7 +27,7 @@ let
   
   wrappedAlacritty = nixGLWrap pkgs.alacritty;
 
-  pkgsMesa_24_2_7 = import inputs.nixpkgs-mesa-24-2-7 {
+  pkgsMesa24_2_7 = import inputs.nixpkgs-mesa-24-2-7 {
     inherit (pkgs) system;
   };
 
