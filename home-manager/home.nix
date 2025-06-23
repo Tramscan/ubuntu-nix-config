@@ -149,6 +149,7 @@ in rec{
     VISUAL = "nvim";
     TERMINAL = "alacritty";
     LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
+    NIXPKGS_ALLOW_UNFREE = 1;
 
     #Hyprland NVIDIA Variables
     #WLR_RENDERER = "vulkan";

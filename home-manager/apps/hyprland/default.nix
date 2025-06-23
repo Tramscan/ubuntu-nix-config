@@ -28,6 +28,7 @@ in
       XDG_CURRENT_DESKTOP = "Hyprland"; # Helps some apps recognize the DE
       XDG_SESSION_TYPE = "wayland"; # Indicates Wayland session
       XDG_SESSION_DESKTOP = "Hyprland"; # Indicates Wayland session
+      NIXPKGS_ALLOW_UNFREE = 1;
   };
 
   wayland.windowManager.hyprland = {
@@ -56,6 +57,7 @@ in
       #  "WLR_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0"
 	#"AQ_DRM_DEVICES,/dev/dri/by-path/pci-0000:01:00.0-card"
 	"AQ_DRM_DEVICES,$HOME/.config/hypr/nvidia-gpu"
+	"NIXPKGS_ALLOW_UNFREE,1"
       ];
 
       # prefer_zero_gpu = true;
