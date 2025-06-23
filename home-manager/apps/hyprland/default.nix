@@ -66,7 +66,7 @@ in
 
       cursor = {
 	no_hardware_cursors = true;
-      }
+      };
 
       general = {
 	gaps_in = 5;
