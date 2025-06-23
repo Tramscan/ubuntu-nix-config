@@ -1,7 +1,6 @@
 { config, pkgs, lib, inputs, nixgl, ... }:
 
 let
-let
   # Create custom nixGL wrapper with explicit NVIDIA version
   nixGLWithVersion = let
     nvidiaVersion = "535.154.05"; # REPLACE WITH YOUR VERSION
