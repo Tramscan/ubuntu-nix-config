@@ -44,6 +44,7 @@ in
       ];
       env = [
 	"LIBVA_DRIVER_NAME,nvidia"
+	"LD_LIBRARY_PATH,/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH"
 	"__GLX_VENDOR_LIBRARY_NAME,nvidia"
 	# It's also often helpful to include these for broader Wayland compatibility
       #  "NIXOS_OZONE_WL,1"      # For Electron apps (VSCode, Discord, etc.)
