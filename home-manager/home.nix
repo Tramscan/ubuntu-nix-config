@@ -31,7 +31,7 @@ let
     inherit pkgs inputs config lib;
     nixGLWithVersion = nixGLWithVersion; # Pass custom wrapper
   };
-in {
+in rec{
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "nick";
