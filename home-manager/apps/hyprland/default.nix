@@ -58,6 +58,8 @@ in
 	#"AQ_DRM_DEVICES,/dev/dri/by-path/pci-0000:01:00.0-card"
 	"AQ_DRM_DEVICES,$HOME/.config/hypr/nvidia-gpu"
 	"NIXPKGS_ALLOW_UNFREE,1"
+	"HYPRLAND_TRACE,1"
+	"AQ_TRACE,1"
       ];
 
       # prefer_zero_gpu = true;
