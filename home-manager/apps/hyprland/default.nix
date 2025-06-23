@@ -49,10 +49,10 @@ in
       #  "NIXOS_OZONE_WL,1"      # For Electron apps (VSCode, Discord, etc.)
       #  "QT_QPA_PLATFORM,wayland" # For Qt apps
       #  "GDK_BACKEND,wayland"     # For GTK apps
-	#"GBM_BACKEND,nvidia-drm"
+	"GBM_BACKEND,nvidia-drm"
 	"WLR_RENDERER,vulkan"
       #  "XDG_CURRENT_DESKTOP,Hyprland" # Helps some apps recognize the DE
-      #  "XDG_SESSION_TYPE,wayland" # Indicates Wayland session
+        "XDG_SESSION_TYPE,wayland" # Indicates Wayland session
       #  "XDG_SESSION_DESKTOP,Hyprland" # Indicates Wayland session
       #  "WLR_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0"
 	#"AQ_DRM_DEVICES,/dev/dri/by-path/pci-0000:01:00.0-card"
@@ -64,6 +64,9 @@ in
 
       # prefer_zero_gpu = true;
 
+      cursor = {
+	no_hardware_cursors = true;
+      }
 
       general = {
 	gaps_in = 5;
