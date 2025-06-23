@@ -60,6 +60,7 @@ in
 	"NIXPKGS_ALLOW_UNFREE,1"
 	"HYPRLAND_TRACE,1"
 	"AQ_TRACE,1"
+	"HYPRLAND_DEBUG,1"
       ];
 
       # prefer_zero_gpu = true;
