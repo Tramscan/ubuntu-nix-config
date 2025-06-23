@@ -33,7 +33,7 @@ in
 
   wayland.windowManager.hyprland = {
     enable = true;
-    package = pkgs.hyprland;
+    package = pkgs.hyprland.override { debug = true; };
     xwayland.enable = true;
     settings = {
       "$mod" = "SUPER";
