@@ -26,7 +26,11 @@ let
   '';
   
   wrappedAlacritty = nixGLWrap pkgs.alacritty;
-  
+
+  pkgsMesa_24_2_7 = import inputs.nixpkgs-mesa-24-2-7 {
+    inherit (pkgs) system;
+  };
+
   hyprlandModule = import ./apps/hyprland/default.nix {
     inherit pkgs inputs config lib;
     nixGLWithVersion = nixGLWithVersion; # Pass custom wrapper
