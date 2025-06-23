@@ -3,7 +3,7 @@
 let
   # Create custom nixGL wrapper with explicit NVIDIA version
   nixGLWithVersion = let
-    nvidiaVersion = "535.154.05"; # REPLACE WITH YOUR VERSION
+    nvidiaVersion = "535.230.02"; # REPLACE WITH YOUR VERSION
     nixGLBase = nixgl.packages.${pkgs.system}.nixGLNvidia;
   in pkgs.runCommand "nixGLNvidia-custom" {} ''
     mkdir -p $out/bin
@@ -15,17 +15,13 @@ let
     chmod +x $out/bin/nixGLNvidia
   '';
 
-  nixGLWrap = pkg: pkgs.runCommand "${pkg.name}-nixgl-wrapper" {} ''
-    mkdir -p $out/bin
-    for bin in ${pkg}/bin/*; do
-      wrapped_bin=$out/bin/$(basename $bin)
-      echo "#!${pkgs.bash}/bin/bash" > $wrapped_bin
-      echo "exec ${nixGLWithVersion}/bin/nixGLNvidia $bin \"\$@\"" >> $wrapped_bin
-      chmod +x $wrapped_bin
-    done
+  nixGLNvidiaBin = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia";
+  alacrittyBin = "${pkgs.alacritty}/bin/alacritty";
+  nvidiaVersion = "535.230.02";
+  wrappedAlacritty = pkgs.writeShellScriptBin "alacritty-nixgl" ''
+    export NVIDIA_DRIVER_VERSION=${nvidiaVersion}
+    exec ${nixGLNvidiaBin} ${alacrittyBin} "$@"
   '';
-  
-  wrappedAlacritty = nixGLWrap pkgs.alacritty;
 
   pkgsMesa24_2_7 = import inputs.nixpkgs-mesa-24-2-7 {
     inherit (pkgs) system;

@@ -2,14 +2,17 @@
 
 let
   # Use the pre-configured versioned wrapper
+  nvidiaVersion = "535.230.02"; # Replace with your actual version
+  nixGLNvidiaBin = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia";
+  hyprlandBin = "${pkgs.hyprland}/bin/Hyprland";
   hyprlandWrapper = pkgs.writeShellScriptBin "hyprland-wrapped" ''
+    export NVIDIA_DRIVER_VERSION=${nvidiaVersion}
     export GBM_BACKEND=nvidia-drm
     export LIBVA_DRIVER_NAME=nvidia
     export __GLX_VENDOR_LIBRARY_NAME=nvidia
-    
-    # Use the versioned nixGL wrapper
-    exec ${nixGLWithVersion}/bin/nixGLNvidia ${pkgs.hyprland}/bin/Hyprland "$@"
+    exec ${nixGLNvidiaBin} ${hyprlandBin} "$@"
   '';
+
 in
 {
   home.packages = [ hyprlandWrapper ];
