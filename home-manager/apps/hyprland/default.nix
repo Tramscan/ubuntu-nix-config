@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, nixgl, nvidiaWithVersion, ...}:
+{ config, pkgs, lib, inputs, nixgl, nixGLWithVersion, ...}:
 
 let
   # Use the pre-configured versioned wrapper
