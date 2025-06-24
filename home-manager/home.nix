@@ -184,13 +184,11 @@ in rec{
   # Remove the nixpkgs.overlays section if it exists
 
   # Your remaining configurations...
-
+  programs.kitty.enable = true;
   # Configure Alacritty
   programs.alacritty = {
     enable = true;
-    package = pkgs.writeShellScriptBin "alacritty-nixglhost" ''
-      exec nix-gl-host alacritty "$@"
-      '';
+    package = pkgs.alacritty;
   };
 
 }

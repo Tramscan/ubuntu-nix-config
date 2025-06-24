@@ -43,6 +43,7 @@ in
       "$mod, ENTER, exec, alacritty"
       "$mod, Q, killactive"
       "$mod, D, exec, wofi --show drun"
+      "$mod, F, exec, firefox"
       ];
       env = [
 	"LIBVA_DRIVER_NAME,nvidia"
