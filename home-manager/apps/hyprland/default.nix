@@ -1,6 +1,6 @@
 { config, pkgs, lib, inputs, nixgl, ...}:
 
-let
+#let
   # Use the pre-configured versioned wrapper
 #  nvidiaVersion = "535.230.02"; # Replace with your actual version
 #  nixGLNvidiaBin = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia";
@@ -12,12 +12,12 @@ let
   #  export __GLX_VENDOR_LIBRARY_NAME=nvidia
   #  exec ${nixGLNvidiaBin} ${hyprlandBin} "$@"
   #'';
-  hyprlandWrapper = pkgs.writeShellScriptBin "hyprland-nixglhost" '' 
-    exec nix-gl-host Hyprland "$@"
-    '';
-in
+  #hyprlandWrapper = pkgs.writeShellScriptBin "hyprland-nixglhost" '' 
+  #  exec nix-gl-host Hyprland "$@"
+  #  '';
+#in
 {
-  home.packages = [ hyprlandWrapper ];
+  #home.packages = [ hyprlandWrapper ];
   home.sessionVariables = {
       WLR_RENDERER = "vulkan";
       GBM_BACKEND = "nvidia-drm";
@@ -40,7 +40,7 @@ in
     settings = {
       "$mod" = "SUPER";
       bind = [
-      "$mod, ENTER, exec, alacritty"
+      "$mod, ENTER, exec, kitty"
       "$mod, Q, killactive"
       "$mod, D, exec, wofi --show drun"
       "$mod, F, exec, firefox"
@@ -50,9 +50,9 @@ in
 	"LD_LIBRARY_PATH,/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH"
 	"__GLX_VENDOR_LIBRARY_NAME,nvidia"
 	# It's also often helpful to include these for broader Wayland compatibility
-      #  "NIXOS_OZONE_WL,1"      # For Electron apps (VSCode, Discord, etc.)
-      #  "QT_QPA_PLATFORM,wayland" # For Qt apps
-      #  "GDK_BACKEND,wayland"     # For GTK apps
+        "NIXOS_OZONE_WL,1"      # For Electron apps (VSCode, Discord, etc.)
+        "QT_QPA_PLATFORM,wayland" # For Qt apps
+        "GDK_BACKEND,wayland"     # For GTK apps
 	"GBM_BACKEND,nvidia-drm"
 	"WLR_RENDERER,vulkan"
       #  "XDG_CURRENT_DESKTOP,Hyprland" # Helps some apps recognize the DE
