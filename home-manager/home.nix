@@ -2,35 +2,35 @@
 
 let
   # Create custom nixGL wrapper with explicit NVIDIA version
-  nixGLWithVersion = let
-    nvidiaVersion = "535.230.02"; # REPLACE WITH YOUR VERSION
-    nixGLBase = nixgl.packages.${pkgs.system}.nixGLNvidia;
-  in pkgs.runCommand "nixGLNvidia-custom" {} ''
-    mkdir -p $out/bin
-    cat > $out/bin/nixGLNvidia <<EOF
+  #nixGLWithVersion = let
+  #  nvidiaVersion = "535.230.02"; # REPLACE WITH YOUR VERSION
+  #  nixGLBase = nixgl.packages.${pkgs.system}.nixGLNvidia;
+  #in pkgs.runCommand "nixGLNvidia-custom" {} ''
+  #  mkdir -p $out/bin
+  #  cat > $out/bin/nixGLNvidia <<EOF
     #!${pkgs.bash}/bin/bash
-    export NVIDIA_DRIVER_VERSION=${nvidiaVersion}
-    exec ${nixGLBase}/bin/nixGLNvidia "\$@"
-    EOF
-    chmod +x $out/bin/nixGLNvidia
-  '';
+  #  export NVIDIA_DRIVER_VERSION=${nvidiaVersion}
+  #  exec ${nixGLBase}/bin/nixGLNvidia "\$@"
+  #  EOF
+  #  chmod +x $out/bin/nixGLNvidia
+  #'';
 
-  nixGLNvidiaBin = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia";
-  alacrittyBin = "${pkgs.alacritty}/bin/alacritty";
-  nvidiaVersion = "535.230.02";
-  wrappedAlacritty = pkgs.writeShellScriptBin "alacritty-nixgl" ''
-    export NVIDIA_DRIVER_VERSION=${nvidiaVersion}
-    exec ${nixGLNvidiaBin} ${alacrittyBin} "$@"
-  '';
+ # nixGLNvidiaBin = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia";
+  #alacrittyBin = "${pkgs.alacritty}/bin/alacritty";
+  #nvidiaVersion = "535.230.02";
+  #wrappedAlacritty = pkgs.writeShellScriptBin "alacritty-nixgl" ''
+  #  export NVIDIA_DRIVER_VERSION=${nvidiaVersion}
+  #  exec ${nixGLNvidiaBin} ${alacrittyBin} "$@"
+  #'';
 
   pkgsMesa24_2_7 = import inputs.nixpkgs-mesa-24-2-7 {
     inherit (pkgs) system;
   };
 
-  hyprlandModule = import ./apps/hyprland/default.nix {
-    inherit pkgs inputs config lib;
-    nixGLWithVersion = nixGLWithVersion; # Pass custom wrapper
-  };
+ # hyprlandModule = import ./apps/hyprland/default.nix {
+ #   inherit pkgs inputs config lib;
+ #   nixGLWithVersion = nixGLWithVersion; # Pass custom wrapper
+ # };
 in rec{
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -91,7 +91,7 @@ in rec{
 	freecad
 	mesa
 	#nixGLPackage
-	wrappedAlacritty
+	#wrappedAlacritty
 	gh
 	pavucontrol
 	zenith-nvidia
@@ -102,6 +102,7 @@ in rec{
 	wayland-protocols
 	libglvnd
 	xwayland
+	inputs.nix-gl-host.packages.${pkgs.system}.default
 	#hyprlandModule.hyprlandWrapper
 	# hyprland
     # # You can also create simple shell scripts directly inside your
@@ -147,7 +148,7 @@ in rec{
     SYSTEMD_EDITOR = "nvim";
     EDITOR = "nvim";
     VISUAL = "nvim";
-    TERMINAL = "alacritty";
+    TERMINAL = "alacritty-nixglhost";
     LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
     NIXPKGS_ALLOW_UNFREE = 1;
 
@@ -187,7 +188,9 @@ in rec{
   # Configure Alacritty
   programs.alacritty = {
     enable = true;
-    package = wrappedAlacritty;
+    package = pkgs.writeShellScriptBin "alacritty-nixglhost" ''
+      exec nix-gl-host alacritty "$@"
+      '';
   };
 
 }
