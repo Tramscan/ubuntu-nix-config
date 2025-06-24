@@ -151,6 +151,7 @@ in rec{
     TERMINAL = "alacritty-nixglhost";
     LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
     NIXPKGS_ALLOW_UNFREE = 1;
+    NIXOS_OZONE_WL = "1";
 
     #Hyprland NVIDIA Variables
     #WLR_RENDERER = "vulkan";
@@ -182,7 +183,7 @@ in rec{
   };
 
   # Remove the nixpkgs.overlays section if it exists
-
+  
   # Your remaining configurations...
   programs.kitty.enable = true;
   # Configure Alacritty
