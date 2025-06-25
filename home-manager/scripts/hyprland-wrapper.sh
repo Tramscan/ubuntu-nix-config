@@ -1,7 +1,8 @@
 #!/bin/sh
-~/.config/nix/home-manager/scripts/setup-opengl-symlinks.sh
+
+/home/nick/.config/nix/home-manager/scripts/setup_opengl_symlinks.sh
+
 export LD_LIBRARY_PATH=/run/opengl-driver/lib
-export GBM_DRIVERS_PATH=/run/opengl-driver/lib/gbm
 export LIBGL_DRIVERS_PATH=/run/opengl-driver/lib/gbm
-exec Hyprland "$@"
+exec /home/nick/.nix-profile/bin/Hyprland "$@"
 

@@ -15,13 +15,13 @@ let
   #  chmod +x $out/bin/nixGLNvidia
   #'';
 
- # nixGLNvidiaBin = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia";
-  #alacrittyBin = "${pkgs.alacritty}/bin/alacritty";
-  #nvidiaVersion = "535.230.02";
-  #wrappedAlacritty = pkgs.writeShellScriptBin "alacritty-nixgl" ''
-  #  export NVIDIA_DRIVER_VERSION=${nvidiaVersion}
-  #  exec ${nixGLNvidiaBin} ${alacrittyBin} "$@"
-  #'';
+  nixGLNvidiaBin = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia";
+  alacrittyBin = "${pkgs.alacritty}/bin/alacritty";
+  nvidiaVersion = "535.230.02";
+  wrappedAlacritty = pkgs.writeShellScriptBin "alacritty-nixgl" ''
+    export NVIDIA_DRIVER_VERSION=${nvidiaVersion}
+    exec ${nixGLNvidiaBin} ${alacrittyBin} "$@"
+  '';
 
   pkgsMesa24_2_7 = import inputs.nixpkgs-mesa-24-2-7 {
     inherit (pkgs) system;
@@ -91,7 +91,7 @@ in rec{
 	freecad
 	mesa
 	#nixGLPackage
-	#wrappedAlacritty
+	wrappedAlacritty
 	gh
 	pavucontrol
 	zenith-nvidia
@@ -189,7 +189,7 @@ in rec{
   # Configure Alacritty
   programs.alacritty = {
     enable = true;
-    package = pkgs.alacritty;
+    package = wrappedAlacritty;
   };
 
 }
