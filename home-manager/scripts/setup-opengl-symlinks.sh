@@ -1,5 +1,4 @@
 #!/bin/sh
-set -e
 
 mkdir -p /run/opengl-driver/lib
 mkdir -p /run/opengl-driver/lib/gbm
