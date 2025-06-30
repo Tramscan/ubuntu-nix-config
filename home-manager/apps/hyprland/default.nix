@@ -35,7 +35,7 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
-    package = pkgs.hyprland.override { debug = true; };
+    #package = pkgs.hyprland.override { debug = true; };
     xwayland.enable = true;
     settings = {
       "$mod" = "SUPER";
