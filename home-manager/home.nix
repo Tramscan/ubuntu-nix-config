@@ -202,7 +202,7 @@ in rec{
     };
     Service = {
       Type = "oneshot";
-      ExecStart = "${pkgs.sudo}/bin/sudo /home/nick/.config/nix/home-manager/scripts/setup-opengl-symlinks.sh";
+      ExecStart = "/usr/bin/sudo /home/nick/.config/nix/home-manager/scripts/setup-opengl-symlinks.sh";
       RemainAfterExit = true;
     };
     Install = {
