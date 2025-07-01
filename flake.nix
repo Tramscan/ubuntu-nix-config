@@ -29,6 +29,7 @@
     pkgs = import nixpkgs {
       inherit system;
       config.allowUnfree = true;
+      config.allowUnfreePredicate = (_: true);
     };
   in {
     packages.${system}.nix-gl-host = nix-gl-host.defaultPackage.${system.nix-gl-host};
