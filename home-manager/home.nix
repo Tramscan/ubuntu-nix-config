@@ -193,5 +193,21 @@ in rec{
     enable = true;
     package = wrappedAlacritty;
   };
+  
+  #systemd services
+  systemd.user.services.setup-opengl-symlinks = {
+    Unit = {
+      Description = "Setup OpenGL symlinks before graphical session";
+      Before = [ "graphical-session.target" ];
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.sudo}/bin/sudo /home/nick/.config/nix/home-manager/scripts/setup-opengl-symlinks.sh";
+      RemainAfterExit = true;
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+  };
 
 }
