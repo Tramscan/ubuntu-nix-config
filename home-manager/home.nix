@@ -194,6 +194,12 @@ in rec{
     package = wrappedAlacritty;
   };
   
+  systemd.user.sessionVariables = {
+    NIXPKGS_ALLOW_UNFREE = "1";
+    LIBGL_DRIVERS_PATH = "/run/opengl-driver/lib/gbm";
+    LD_LIBRARY_PATH = "/run/opengl-driver/lib";
+    };
+
   #systemd services
   systemd.user.services.setup-opengl-symlinks = {
     Unit = {
