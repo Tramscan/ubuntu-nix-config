@@ -88,6 +88,9 @@
       };
 
       exec-once = [
+	"alacritty"
+	"ghostyy"
+	"firefox"
 	"waybar"
 	"mako"
 	"nm-applet --indicator"
