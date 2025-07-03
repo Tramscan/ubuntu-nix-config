@@ -38,7 +38,7 @@
     #package = pkgs.hyprland.override { debug = true; };
     xwayland.enable = true;
     settings = {
-      "$mod" = "SUPER";
+      "$mod" = "Alt_L";
       bind = [
       "$mod, ENTER, exec, kitty"
       "$mod, Q, killactive"
@@ -94,6 +94,7 @@
 	"waybar"
 	"mako"
 	"nm-applet --indicator"
+	"vesktop"
       ];
     };
 
