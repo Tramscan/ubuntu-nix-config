@@ -204,7 +204,7 @@ in rec{
   # Configure Alacritty
   programs.alacritty = {
     enable = true;
-    package = wrappedAlacritty;
+    #package = wrappedAlacritty;
   };
   
   #systemd.user.sessionVariables = {
