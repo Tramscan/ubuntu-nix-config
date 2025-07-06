@@ -19,7 +19,7 @@ let
   #alacrittyBin = "${pkgs.alacritty}/bin/alacritty";
   #nvidiaVersion = "535.230.02";
 
-  wrapAlacritty = 1; # Toggle this between 1 and 0
+  wrapWithNixGL = 0; # Toggle this between 1 and 0
   alacrittyBin = "${pkgs.alacritty}/bin/alacritty";
   vesktopBin = "${pkgs.vesktop}/bin/vesktop";
   nixGLNvidiaBin = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia";
@@ -94,7 +94,7 @@ in rec{
   # environment.
   home.packages = with pkgs; [
   	neofetch
-	wrappedVesktop
+	( if wrapWithNixGL == 1 then wrappedVesktop else vesktop )
 	picom
 	# i3blocks
 	waybar
@@ -103,7 +103,7 @@ in rec{
 	freecad
 	mesa
 	#nixGLPackage
-	wrappedAlacritty
+	( if wrapWithNixGL == 1 then wrappedAlacritty else alacritty )
 	gh
 	pavucontrol
 	zenith-nvidia
