@@ -203,8 +203,8 @@ in rec{
   #systemd services
   systemd.user.services.setup-opengl-symlinks = {
     Unit = {
-      Description = "Setup OpenGL symlinks before graphical session";
-      Before = [ "graphical-session.target" ];
+      Description = "Setup OpenGL symlinks before display manager";
+      Before = [ "display-manager.service" ];
     };
     Service = {
       Type = "oneshot";
