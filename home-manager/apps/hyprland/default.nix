@@ -64,8 +64,6 @@
 	"HYPRLAND_TRACE,1"
 	"AQ_TRACE,1"
 	"HYPRLAND_DEBUG,1"
-	"LIBGL_DRIVERS_PATH,/run/opengl-driver/lib/gbm"
-	"LD_LIBRARY_PATH,/run/opengl-driver/lib"
       ];
 
       # prefer_zero_gpu = true;

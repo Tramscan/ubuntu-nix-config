@@ -152,8 +152,6 @@ in rec{
     LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
     NIXPKGS_ALLOW_UNFREE = 1;
     NIXOS_OZONE_WL = "1";
-    LIBGL_DRIVERS_PATH=/run/opengl-driver/lib/gbm;
-    LD_LIBRARY_PATH=/run/opengl-driver/lib;
 
     #Hyprland NVIDIA Variables
     #WLR_RENDERER = "vulkan";
