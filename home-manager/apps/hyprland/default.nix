@@ -38,9 +38,9 @@
     #package = pkgs.hyprland.override { debug = true; };
     xwayland.enable = true;
     settings = {
-      "$mod" = "Alt_L";
+      "$mod" = "SUPER";
       bind = [
-      "$mod, ENTER, exec, kitty"
+      "$mod, ENTER, exec, alacritty"
       "$mod, Q, killactive"
       "$mod, D, exec, wofi --show drun"
       "$mod, F, exec, firefox"
