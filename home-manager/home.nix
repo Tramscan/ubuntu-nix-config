@@ -201,18 +201,18 @@ in rec{
   #  };
 
   #systemd services
-  systemd.user.services.setup-opengl-symlinks = {
+  systemd.services.setup-opengl-symlinks = {
     Unit = {
       Description = "Setup OpenGL symlinks before display manager";
       Before = [ "display-manager.service" ];
     };
     Service = {
       Type = "oneshot";
-      ExecStart = "/usr/bin/sudo /home/nick/.config/nix/home-manager/scripts/setup-opengl-symlinks.sh";
+      ExecStart = "/home/nick/.config/nix/home-manager/scripts/setup-opengl-symlinks.sh";
       RemainAfterExit = true;
     };
     Install = {
-      WantedBy = [ "default.target" ];
+      WantedBy = [ "multi-user.target" ];
     };
   };
 
