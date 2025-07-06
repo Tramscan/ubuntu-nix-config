@@ -47,7 +47,6 @@
       ];
       env = [
 	"LIBVA_DRIVER_NAME,nvidia"
-	"LD_LIBRARY_PATH,/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH"
 	"__GLX_VENDOR_LIBRARY_NAME,nvidia"
 	# It's also often helpful to include these for broader Wayland compatibility
         "NIXOS_OZONE_WL,1"      # For Electron apps (VSCode, Discord, etc.)
@@ -65,8 +64,8 @@
 	"HYPRLAND_TRACE,1"
 	"AQ_TRACE,1"
 	"HYPRLAND_DEBUG,1"
-	"LIBGL_DRIVERS_PATH=/run/opengl-driver/lib/gbm"
-	"LD_LIBRARY_PATH=/run/opengl-driver/lib"
+	"LIBGL_DRIVERS_PATH,/run/opengl-driver/lib/gbm"
+	"LD_LIBRARY_PATH,/run/opengl-driver/lib"
       ];
 
       # prefer_zero_gpu = true;
