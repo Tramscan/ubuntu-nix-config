@@ -201,19 +201,20 @@ in rec{
   #  };
 
   #systemd services
-  systemd.services.setup-opengl-symlinks = {
-    Unit = {
-      Description = "Setup OpenGL symlinks before display manager";
-      Before = [ "display-manager.service" ];
-    };
-    Service = {
-      Type = "oneshot";
-      ExecStart = "/home/nick/.config/nix/home-manager/scripts/setup-opengl-symlinks.sh";
-      RemainAfterExit = true;
-    };
-    Install = {
-      WantedBy = [ "multi-user.target" ];
-    };
+  #systemd.user.services.setup-opengl-symlinks = {
+  #  Unit = {
+  #    Description = "Setup OpenGL symlinks before display manager";
+  #    DefaultDependencies= "no";
+  #    Before = "graphical-session.target";
+  #  };
+  #  Service = {
+  #    Type = "oneshot";
+  #    ExecStart = "/usr/bin/sudo /home/nick/.config/nix/home-manager/scripts/setup-opengl-symlinks.sh";
+  #    RemainAfterExit = true;
+  #  };
+  #  Install = {
+  #    WantedBy = [ "multi-user.target" ];
+  #  };
   };
 
 }
