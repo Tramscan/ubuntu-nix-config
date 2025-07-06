@@ -40,7 +40,7 @@
     settings = {
       "$mod" = "SUPER";
       bind = [
-      "$mod, ENTER, exec, alacritty"
+      "$mod, Enter, exec, alacritty"
       "$mod, Q, killactive"
       "$mod, D, exec, wofi --show drun"
       "$mod, F, exec, firefox"
