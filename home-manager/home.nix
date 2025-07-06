@@ -15,13 +15,25 @@ let
   #  chmod +x $out/bin/nixGLNvidia
   #'';
 
-  nixGLNvidiaBin = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia";
+  #nixGLNvidiaBin = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia";
+  #alacrittyBin = "${pkgs.alacritty}/bin/alacritty";
+  #nvidiaVersion = "535.230.02";
+
+  wrapAlacritty = 1; # Toggle this between 1 and 0
   alacrittyBin = "${pkgs.alacritty}/bin/alacritty";
-  nvidiaVersion = "535.230.02";
-  wrappedAlacritty = pkgs.writeShellScriptBin "alacritty-nixgl" ''
-    export NVIDIA_DRIVER_VERSION=${nvidiaVersion}
+  vesktopBin = "${pkgs.vesktop}/bin/vesktop";
+  nixGLNvidiaBin = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia";
+  wrappedAlacritty = pkgs.writeShellScriptBin "alacritty" ''
     exec ${nixGLNvidiaBin} ${alacrittyBin} "$@"
   '';
+
+  wrappedVesktop = pkgs.writeShellScriptBin "vesktop" ''
+    exec ${nixGLNvidiaBin} ${vesktopBin} "$@"
+  '';
+  #wrappedAlacritty = pkgs.writeShellScriptBin "alacritty-nixgl" ''
+  #  export NVIDIA_DRIVER_VERSION=${nvidiaVersion}
+  #  exec ${nixGLNvidiaBin} ${alacrittyBin} "$@"
+  #'';
 
   pkgsMesa24_2_7 = import inputs.nixpkgs-mesa-24-2-7 {
     inherit (pkgs) system;
@@ -82,7 +94,7 @@ in rec{
   # environment.
   home.packages = with pkgs; [
   	neofetch
-	vesktop
+	wrappedVesktop
 	picom
 	# i3blocks
 	waybar
@@ -102,7 +114,8 @@ in rec{
 	wayland-protocols
 	libglvnd
 	xwayland
-	inputs.nix-gl-host.packages.${pkgs.system}.default
+	nixgl.packages.${pkgs.system}.nixGLNvidia
+	wofi
 	#hyprlandModule.hyprlandWrapper
 	# hyprland
     # # You can also create simple shell scripts directly inside your
