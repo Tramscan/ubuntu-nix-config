@@ -19,17 +19,17 @@ let
   #alacrittyBin = "${pkgs.alacritty}/bin/alacritty";
   #nvidiaVersion = "535.230.02";
 
-  wrapWithNixGL = 0; # Toggle this between 1 and 0
-  alacrittyBin = "${pkgs.alacritty}/bin/alacritty";
-  vesktopBin = "${pkgs.vesktop}/bin/vesktop";
-  nixGLNvidiaBin = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia";
-  wrappedAlacritty = pkgs.writeShellScriptBin "alacritty" ''
-    exec ${nixGLNvidiaBin} ${alacrittyBin} "$@"
-  '';
+  #wrapWithNixGL = 0; # Toggle this between 1 and 0
+  #alacrittyBin = "${pkgs.alacritty}/bin/alacritty";
+  #vesktopBin = "${pkgs.vesktop}/bin/vesktop";
+  #nixGLNvidiaBin = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia";
+  #wrappedAlacritty = pkgs.writeShellScriptBin "alacritty" ''
+  #  exec ${nixGLNvidiaBin} ${alacrittyBin} "$@"
+  #'';
 
-  wrappedVesktop = pkgs.writeShellScriptBin "vesktop" ''
-    exec ${nixGLNvidiaBin} ${vesktopBin} "$@"
-  '';
+  #wrappedVesktop = pkgs.writeShellScriptBin "vesktop" ''
+  #  exec ${nixGLNvidiaBin} ${vesktopBin} "$@"
+  #'';
   #wrappedAlacritty = pkgs.writeShellScriptBin "alacritty-nixgl" ''
   #  export NVIDIA_DRIVER_VERSION=${nvidiaVersion}
   #  exec ${nixGLNvidiaBin} ${alacrittyBin} "$@"
@@ -94,7 +94,8 @@ in rec{
   # environment.
   home.packages = with pkgs; [
   	neofetch
-	( if wrapWithNixGL == 1 then wrappedVesktop else vesktop )
+	#( if wrapWithNixGL == 1 then wrappedVesktop else vesktop )
+	vesktop
 	picom
 	# i3blocks
 	waybar
@@ -103,7 +104,8 @@ in rec{
 	freecad
 	mesa
 	#nixGLPackage
-	( if wrapWithNixGL == 1 then wrappedAlacritty else alacritty )
+	#( if wrapWithNixGL == 1 then wrappedAlacritty else alacritty )
+	alacritty
 	gh
 	pavucontrol
 	zenith-nvidia
