@@ -48,7 +48,7 @@
       # prefer_zero_gpu = true;
 
       monitor = [
-	"DP-2,1560x1440,0x0,1"
+	"DP-2,2560x1440,0x0,1"
 	"DP-1,2560x1440,2560x0,1"
       ];
 
