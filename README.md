@@ -1,6 +1,9 @@
 # ubuntu-nix-configs
+
 These configs require some setup to get started. This is a Nix config of Hyprland (or i3 if you want) using home-manager, designed to be used with Ubuntu and Nvidia GPU systems. 
+
 ## Setup
+
 1. Install git and nix
 
 ```
@@ -18,6 +21,7 @@ git clone TODO UBUNTU_NIX_CONFIG_LOCATION
 ```
 
 3. Install graphics drivers/dependencies
+
 Listed below are the reccomended drivers for Nvidia GPUs as this is what I've gotten working most recently. In the future I will update this to either autodetect the nvidia driver version for the nixGL portion of `home.nix` and the `hyprland.desktop` wrapping, but that is a future nick task.
 
 ```
@@ -98,7 +102,7 @@ sudo systemctl start setup-opengl-symlinks.service
 
 8. Reboot and log in to Hyprland
 
-#Conclusion
+# Conclusion
 
 Although these are more steps than you'd want for something as simple as Hyprland on Nix (which ___should___ be a few lines at most), Nvidia is tricky to set up for wayland on non-nixos systems. If you have NixOS, there is not much of a reason to use this configuration. However, I know that there are a lot of packages that are great to use natively on Ubuntu and rely on the system-level graphics libraries, so this is a great middle-ground where you can have your cake (riced and declarative Hyprland configured through nix) and eat it too (use Ubuntu LTS and packages unavailable to the nix package manager). Let me know if these are redundant to some NixOS magic and I'll gladly archive this repo and switch ASAP.
 
