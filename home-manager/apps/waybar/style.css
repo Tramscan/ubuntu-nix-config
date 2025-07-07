@@ -42,12 +42,12 @@ tooltip label {
 }
 
 #clock {
-    background-color: rgba(43, 48, 59, 0.5);
+    background-color: rgba(43, 48, 59, 0);
     color: white;
 }
 
 #clock:hover {
-    background-color: rgba(43, 48, 59, 0.5);
+    background-color: rgba(43, 48, 59, 0.3);
 }
 
 #battery {
@@ -61,12 +61,12 @@ tooltip label {
 }
 
 #pulseaudio {
-    background-color: rgba(43, 48, 59, 0.5);
+    background-color: rgba(43, 48, 59, 0);
     color: white;
 }
 
 #pulseaudio:hover {
-    background-color: rgba(43, 48, 59, 0.7);
+    background-color: rgba(43, 48, 59, 0.3);
 }
 
 @keyframes blink {
