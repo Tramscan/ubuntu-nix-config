@@ -35,9 +35,9 @@ let
   #  exec ${nixGLNvidiaBin} ${alacrittyBin} "$@"
   #'';
 
-  pkgsMesa24_2_7 = import inputs.nixpkgs-mesa-24-2-7 {
-    inherit (pkgs) system;
-  };
+ # pkgsMesa24_2_7 = import inputs.nixpkgs-mesa-24-2-7 {
+ #   inherit (pkgs) system;
+ # };
 
  # hyprlandModule = import ./apps/hyprland/default.nix {
  #   inherit pkgs inputs config lib;
@@ -102,7 +102,7 @@ in rec{
 	protonup-qt
 	mujoco
 	freecad
-	mesa
+	mesa-demos
 	#nixGLPackage
 	#( if wrapWithNixGL == 1 then wrappedAlacritty else alacritty )
 	alacritty
