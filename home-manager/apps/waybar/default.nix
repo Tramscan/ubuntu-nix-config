@@ -12,7 +12,7 @@
 	"DP-1"
       ];
       modules-left = [ "sway/workspaces" "sway/mode" "wlr/taskbar" ];
-      modules-right = [ "mpd" "custom/mymodule#with-css-id" "pulseaudio" "clock" "custom/spacer" "custom/shutdown" "custom/reboot" "custom/logout"];
+      modules-right = [ "mpd" "pulseaudio" "clock" "custom/spacer" "custom/shutdown" "custom/reboot" "custom/logout"];
 
       "clock" = {
 	format-alt = "{%H:%M}";
