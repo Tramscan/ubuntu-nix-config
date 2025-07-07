@@ -8,7 +8,7 @@ These configs require some setup to get started. This is a Nix config of Hyprlan
 
 ```
 
-TODO
+sudo apt install git nix
 
 ```
 
@@ -16,7 +16,7 @@ TODO
 
 ```
 
-git clone TODO UBUNTU_NIX_CONFIG_LOCATION
+git clone https://github.com/Tramscan/ubuntu-nix-config.git UBUNTU_NIX_CONFIG_LOCATION
 
 ```
 
@@ -34,9 +34,17 @@ sudo apt install nvidia-driver-570=570.133.07-0ubuntu0.22.04.1 libnvidia-gl-570=
 
 4. Switch the configuration
 
+I want to set unfree here because I haven't fixed it in the config yet, chances are you don't have it set on a fresh system anyways.
+
 ```
 
-home-manager switch --flake UBUNTU_NIX_CONFIG_LOCATION
+export NIXPKGS_ALLOW_UNFREE=1
+
+```
+
+```
+
+home-manager switch --flake UBUNTU_NIX_CONFIG_LOCATION --impure
 
 ```
 
