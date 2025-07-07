@@ -48,8 +48,8 @@
       # prefer_zero_gpu = true;
 
       monitor = [
-	"DP-2,preferred,0x0,1"
-	"DP-1,preferred,2160x0,1"
+	"DP-2,1560x1440,0x0,1"
+	"DP-1,2560x1440,2560x0,1"
       ];
 
       cursor = {
