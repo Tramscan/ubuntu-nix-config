@@ -1,4 +1,4 @@
-# ubuntu-nix-configs
+# ubuntu-nix-config
 
 These configs require some setup to get started. This is a Nix config of Hyprland (or i3 if you want) using home-manager, designed to be used with Ubuntu and Nvidia GPU systems. 
 
