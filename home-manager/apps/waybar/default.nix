@@ -18,9 +18,35 @@
 	format-alt = "{:%a, %d. %b  %H:%M}";
       };
 
+      "custom/shutdown" = {
+	format = "⏻";
+	interval = "once";
+	on-click = "shutdown now";
+	tooltip = true;
+	tooltip-format = "Shutdown Now";
+      };
+
+      "custom/reboot" = {
+	format = "⭯";
+	interval = "once";
+	on-click = "reboot now";
+	tooltip-format = "Reboot Now";
+      };
+
+      "custom/logout" = {
+	format = "⮌";
+	interval = "once";
+	on-click = "hyprctl dispatch exit";
+	tooltip-format = "Log Out";
+      };
+
       "pulseaudio" = {
 	on-click = "pavucontrol";
 	format-muted = "!";
+      };
+
+      "custom/spacer" = {
+	format = "	";
       };
 
       "sway/workspaces" = {
