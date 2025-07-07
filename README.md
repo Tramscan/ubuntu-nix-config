@@ -18,7 +18,7 @@ git clone TODO UBUNTU_NIX_CONFIG_LOCATION
 ```
 
 3. Install graphics drivers/dependencies
-Listed below are the reccomended drivers for Nvidia GPUs as this is what I've gotten working most recently. In the future I will update this to either autodetect the nvidia driver version for the nixGL portion of 'home.nix' and the 'hyprland.desktop' wrapping, but that is a future nick task.
+Listed below are the reccomended drivers for Nvidia GPUs as this is what I`ve gotten working most recently. In the future I will update this to either autodetect the nvidia driver version for the nixGL portion of `home.nix` and the `hyprland.desktop` wrapping, but that is a future nick task.
 
 ```
 
@@ -35,9 +35,9 @@ home-manager switch --flake UBUNTU_NIX_CONFIG_LOCATION
 
 ```
 
-5. Modify your '/usr/share/wayland-sessions/hyprland.desktop'
-'sudo nano /usr/share/wayland-sessions/hyprland.desktop'
-The 'Exec=' block should look like this:
+5. Modify your `/usr/share/wayland-sessions/hyprland.desktop`
+`sudo nano /usr/share/wayland-sessions/hyprland.desktop`
+The `Exec=` block should look like this:
 
 ```
 
@@ -46,7 +46,7 @@ Exec=env WLR_RENDERER=vulkan GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nv
 ```
 
 Or, if you want the whole file:
-'sudo nano /usr/share/wayland-sessions/hyprland.desktop'
+`sudo nano /usr/share/wayland-sessions/hyprland.desktop`
 
 ```
 
@@ -60,8 +60,8 @@ Keywords=tiling;wayland;compositor;
 
 ```
 
-6. Create a systemd service for gbm libraries such as 'setup-opengl-symlinks.service'
-'sudo nano /etc/systemd/system/setup-opengl-symlinks.service'
+6. Create a systemd service for gbm libraries such as `setup-opengl-symlinks.service`
+`sudo nano /etc/systemd/system/setup-opengl-symlinks.service`
 
 ```
 
@@ -95,6 +95,6 @@ sudo systemctl start setup-opengl-symlinks.service
 
 #Conclusion
 
-Although these are more steps than you'd want for something as simple as Hyprland on Nix (which ___should___ be a few lines at most), Nvidia is tricky to set up for wayland on non-nixos systems. If you have NixOS, there is not much of a reason to use this configuration. However, I know that there are a lot of packages that are great to use natively on Ubuntu and rely on the system-level graphics libraries, so this is a great middle-ground where you can have your cake (riced and declarative Hyprland configured through nix) and eat it too (use Ubuntu LTS and packages unavailable to the nix package manager). Let me know if these are redundant to some NixOS magic and I'll gladly archive this repo and switch ASAP.
+Although these are more steps than you`d want for something as simple as Hyprland on Nix (which ___should___ be a few lines at most), Nvidia is tricky to set up for wayland on non-nixos systems. If you have NixOS, there is not much of a reason to use this configuration. However, I know that there are a lot of packages that are great to use natively on Ubuntu and rely on the system-level graphics libraries, so this is a great middle-ground where you can have your cake (riced and declarative Hyprland configured through nix) and eat it too (use Ubuntu LTS and packages unavailable to the nix package manager). Let me know if these are redundant to some NixOS magic and I`ll gladly archive this repo and switch ASAP.
 
 visit my website at [nickcline.com](https://nickcline.com) and please hire me
