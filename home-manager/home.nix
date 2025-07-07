@@ -1,6 +1,9 @@
 { config, pkgs, lib, inputs, nixgl, ... }:
 
 let
+  
+  nixGLHyprlandWrapper = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia";
+
   # Create custom nixGL wrapper with explicit NVIDIA version
   #nixGLWithVersion = let
   #  nvidiaVersion = "535.230.02"; # REPLACE WITH YOUR VERSION
@@ -46,7 +49,8 @@ let
 in rec{
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "nick";
+ 
+ home.username = "nick";
   home.homeDirectory = "/home/nick";
   
 
@@ -76,6 +80,14 @@ in rec{
   #    mesa = pkgsMesa24_2_7.mesa;
   #  })
   #];
+  
+  xdg.desktopEntries.hyprland = {
+    name = "Hyprland (test)";
+    comment = "An Intelligent dynamic tiling Wayland compositor (for ubuntu/nix/home-manager/nvidia)";
+    exec = "Exec=env WLR_RENDERER=vulkan GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia LIBVA_DRIVER_NAME=nvidia XDG_SESSION_TYPE=wayland LIBGL_DRIVERS_PATH=/run/opengl-driver/lib/gbm NIXPKGS_ALLOW_UNFREE=1 ${nixGLHyprlandWrapper} Hyprland";
+    type = "Application";
+  };
+
 
   imports = [
   	./apps/i3
