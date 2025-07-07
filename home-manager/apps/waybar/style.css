@@ -50,6 +50,33 @@ tooltip label {
     background-color: rgba(43, 48, 59, 0.4);
 }
 
+#custom-shutdown {
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+}
+
+#custom-shutdown:hover {
+    background-color: rgba(110, 25, 25, 0.4);
+}
+
+#custom-reboot {
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+}
+
+#custom-reboot:hover {
+    background-color: rgba(110, 25, 25, 0.4);
+}
+
+#custom-logout {
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+}
+
+#custom-logout:hover {
+    background-color: rgba(100, 40, 40, 0.4);
+}
+
 #battery {
     background-color: #ffffff;
     color: black;

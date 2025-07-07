@@ -15,26 +15,26 @@
       modules-right = [ "mpd" "custom/mymodule#with-css-id" "pulseaudio" "clock" "custom/spacer" "custom/shutdown" "custom/reboot" "custom/logout"];
 
       "clock" = {
-	format-alt = "{:%a, %d. %b  %H:%M}";
+	format-alt = "{%H:%M}";
+	tooltip = false;
       };
 
       "custom/shutdown" = {
-	format = "⏻";
+	format = "  ⏻  ";
 	interval = "once";
 	on-click = "shutdown now";
-	tooltip = true;
 	tooltip-format = "Shutdown Now";
       };
 
       "custom/reboot" = {
-	format = "⭯";
+	format = "  ⭯  ";
 	interval = "once";
 	on-click = "reboot now";
 	tooltip-format = "Reboot Now";
       };
 
       "custom/logout" = {
-	format = "⮌";
+	format = "  ⮌  ";
 	interval = "once";
 	on-click = "hyprctl dispatch exit";
 	tooltip-format = "Log Out";
