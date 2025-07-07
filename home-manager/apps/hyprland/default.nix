@@ -47,6 +47,11 @@
 
       # prefer_zero_gpu = true;
 
+      monitor = [
+	"DP-2,preferred,0x0,1"
+	"DP-1,preferred,2160x0,1"
+      ];
+
       cursor = {
 	no_hardware_cursors = true;
       };
