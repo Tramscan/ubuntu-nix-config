@@ -71,11 +71,11 @@ in rec{
     allowUnfree = true;
   };
 
-  nixpkgs.overlays = [
-    (final: prev: {
-      mesa = pkgsMesa24_2_7.mesa;
-    })
-  ];
+  #nixpkgs.overlays = [
+  #  (final: prev: {
+  #    mesa = pkgsMesa24_2_7.mesa;
+  #  })
+  #];
 
   imports = [
   	./apps/i3
