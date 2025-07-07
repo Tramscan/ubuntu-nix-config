@@ -86,6 +86,7 @@ in rec{
 	#  sha256 = "f14874544414b9f6b068cfb8c19d2054825b8531f827ec292c2b0ecc5376b305";
         #})
 	./apps/hyprland
+	./apps/waybar
   ];
 
 

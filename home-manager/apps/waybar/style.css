@@ -2,13 +2,13 @@
     border: none;
     border-radius: 0;
     font-family: Roboto, Helvetica, Arial, sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     min-height: 0;
 }
 
 window#waybar {
     background: rgba(43, 48, 59, 0.5);
-    border-bottom: 3px solid rgba(100, 114, 125, 0.5);
+    border-bottom: 1px solid rgba(100, 114, 125, 0.5);
     color: white;
 }
 
@@ -42,7 +42,12 @@ tooltip label {
 }
 
 #clock {
-    background-color: #64727D;
+    background-color: rgba(43, 48, 59, 0.5);
+    color: white;
+}
+
+#clock:hover {
+    background-color: rgba(43, 48, 59, 0.5);
 }
 
 #battery {
@@ -53,6 +58,15 @@ tooltip label {
 #battery.charging {
     color: white;
     background-color: #26A65B;
+}
+
+#pulseaudio {
+    background-color: rgba(43, 48, 59, 0.5);
+    color: white;
+}
+
+#pulseaudio:hover {
+    background-color: rgba(43, 48, 59, 0.7);
 }
 
 @keyframes blink {
