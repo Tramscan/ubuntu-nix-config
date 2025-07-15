@@ -21,6 +21,8 @@ let
 
 in {
 
+  home.packages = [ tailscale-toggle-script ];
+
   programs.waybar = {
     enable = true;
     style = ./style.css;
@@ -47,13 +49,13 @@ in {
         exec = ''
           #!/usr/bin/env bash
           if tailscale status &>/dev/null; then
-              echo '{"text": "Up", "tooltip": "Tailscale is Active", "class": "on"}'
+              echo '{text = "Up"; tooltip = "Tailscale is Active"; class = "on";}'
           else
               echo '{"text": "Down", "tooltip": "Tailscale is Inactive", "class": "off"}'
           fi
         '';
 
-        format = "󰌙 {}"; # VPN icon from Nerd Fonts
+        format = "󰌙 {text}"; # VPN icon from Nerd Fonts
         on-click = "waybar-tailscale"; # Runs the script we defined above
         restart-interval = 3600; # Effectively run once, but restart if it crashes
       };

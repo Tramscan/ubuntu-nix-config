@@ -89,7 +89,6 @@ in rec{
         #})
 	./apps/hyprland
 	./apps/waybar
-	./apps/sunshine
   ];
 
 
