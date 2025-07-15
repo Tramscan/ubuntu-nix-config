@@ -89,6 +89,7 @@ in rec{
         #})
 	./apps/hyprland
 	./apps/waybar
+	./apps/sunshine
   ];
 
 
@@ -124,6 +125,7 @@ in rec{
 	nixgl.packages.${pkgs.system}.nixGLNvidiaBumblebee
 	wofi
 	wrappedSteam
+	sunshine
 	#pokemmo-installer
 	  (pkgs.pokemmo-installer.overrideAttrs (oldAttrs: {
 	      buildInputs = (oldAttrs.buildInputs or []) ++ [ pkgs.makeWrapper ]; # Include makeWrapper in buildInputs
@@ -141,6 +143,9 @@ in rec{
     #   echo "Helloauto.nixGLDefault: Tries to auto-detect and install Nvidia, if not, fallback to mesa. Recommended. Invoke with nixGL program., ${config.home.username}!"
     # '')
   ];
+
+  
+
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
