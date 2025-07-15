@@ -126,6 +126,7 @@ in rec{
 	wofi
 	wrappedSteam
 	sunshine
+	tailscale
 	#pokemmo-installer
 	  (pkgs.pokemmo-installer.overrideAttrs (oldAttrs: {
 	      buildInputs = (oldAttrs.buildInputs or []) ++ [ pkgs.makeWrapper ]; # Include makeWrapper in buildInputs
