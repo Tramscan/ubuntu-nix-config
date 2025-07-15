@@ -77,6 +77,23 @@ tooltip label {
     background-color: rgba(110, 110, 25, 0.4);
 }
 
+#custom-tailscale {
+  padding: 0 10px;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+#custom-tailscale.on {
+    color: #86efac; /* Green when active */
+}
+
+#custom-tailscale.off {
+    color: #fca5a5; /* Red when inactive */
+}
+
+#custom-tailscale:hover {
+  background-color: rgba(43, 48, 59, 0.4);
+}
+
 #battery {
     background-color: #ffffff;
     color: black;

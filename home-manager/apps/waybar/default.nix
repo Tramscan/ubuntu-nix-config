@@ -1,4 +1,25 @@
-{ pkgs , ... }: {
+{ pkgs , ... }: 
+let 
+
+    tailscale-toggle-script = pkgs.writeShellScriptBin "waybar-tailscale" ''
+    #!/usr/bin/env bash
+    # This script toggles Tailscale on or off and then refreshes Waybar.
+
+    # Check if tailscaled is active.
+    if tailscale status &>/dev/null; then
+        # If it's on, turn it off.
+        sudo tailscale down
+    else
+        # If it's off, turn it on.
+        sudo tailscale up
+    fi
+
+    # Signal Waybar to refresh its modules to update the icon immediately.
+    # This works for Hyprland/Sway.
+    pkill -RTMIN+8 waybar
+  '';
+
+in {
 
   programs.waybar = {
     enable = true;
@@ -12,7 +33,7 @@
 	"DP-2"
       ];
       modules-left = [ "sway/workspaces" "sway/mode" "wlr/taskbar" ];
-      modules-right = [ "mpd" "pulseaudio" "clock" "custom/spacer" "custom/shutdown" "custom/reboot" "custom/logout"];
+      modules-right = [ "mpd" "custom/tailscale" "pulseaudio" "clock" "custom/spacer" "custom/shutdown" "custom/reboot" "custom/logout"];
       modules-center = [ "hyprland/workspaces" ];
       
       "hyprland/workspaces"= {
@@ -21,6 +42,21 @@
 	all-outputs = true;
       };
 
+      "custom/tailscale"  = {
+        # This script runs on startup and when signaled to check the status.
+        exec = ''
+          #!/usr/bin/env bash
+          if tailscale status &>/dev/null; then
+              echo '{"text": "Up", "tooltip": "Tailscale is Active", "class": "on"}'
+          else
+              echo '{"text": "Down", "tooltip": "Tailscale is Inactive", "class": "off"}'
+          fi
+        '';
+
+        format = "󰌙 {}"; # VPN icon from Nerd Fonts
+        on-click = "waybar-tailscale"; # Runs the script we defined above
+        restart-interval = 3600; # Effectively run once, but restart if it crashes
+      };
 
       "clock" = {
 	format-alt = "{%H:%M}";
