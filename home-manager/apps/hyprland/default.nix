@@ -25,6 +25,41 @@
       "$mod, Q, killactive"
       "$mod, D, exec, wofi --show drun"
       "$mod, F, exec, firefox"
+
+      # Workspace switching
+      "SUPER, 1, workspace, 1"
+      "SUPER, 2, workspace, 2"
+      "SUPER, 3, workspace, 3"
+      "SUPER, 4, workspace, 4"
+      "SUPER, 5, workspace, 5"
+      "SUPER, 6, workspace, 6"
+      "SUPER, 7, workspace, 7"
+      "SUPER, 8, workspace, 8"
+      "SUPER, 9, workspace, 9"
+      "SUPER, 0, workspace, 10"
+
+      # Move active window to workspace
+      "SUPER SHIFT, 1, movetoworkspace, 1"
+      "SUPER SHIFT, 2, movetoworkspace, 2"
+      "SUPER SHIFT, 3, movetoworkspace, 3"
+      "SUPER SHIFT, 4, movetoworkspace, 4"
+      "SUPER SHIFT, 5, movetoworkspace, 5"
+      "SUPER SHIFT, 6, movetoworkspace, 6"
+      "SUPER SHIFT, 7, movetoworkspace, 7"
+      "SUPER SHIFT, 8, movetoworkspace, 8"
+      "SUPER SHIFT, 9, movetoworkspace, 9"
+      "SUPER SHIFT, 0, movetoworkspace, 10"
+
+      # Window movement
+      "SUPER, left, movefocus, l"
+      "SUPER, right, movefocus, r"
+      "SUPER, up, movefocus, u"
+      "SUPER, down, movefocus, d"
+
+      # Resize windows with mouse
+      #"mouse:272, SUPER, resizewindow" # Left click + SUPER to resize
+      #"mouse:273, SUPER, movewindow"   # Right click + SUPER to move
+
       ];
       env = [
 	"LIBVA_DRIVER_NAME,nvidia"
@@ -44,12 +79,21 @@
 	"AQ_TRACE,1"
 	"HYPRLAND_DEBUG,1"
       ];
+      
+      decoration = {
+	active_opacity = 0.875;
+	inactive_opacity = 0.875;
+      };
+
+      windowrule = [
+	"opacity 1.0 override, fullscreen:1"
+      ];
 
       # prefer_zero_gpu = true;
 
       monitor = [
-	"DP-2,2560x1440,0x0,1"
-	"DP-1,2560x1440,2560x0,1"
+	"DP-3,2560x1440,0x0,1"
+	"DP-2,2560x1440,2560x0,1"
       ];
 
       cursor = {

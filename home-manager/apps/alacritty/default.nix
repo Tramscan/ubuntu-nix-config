@@ -7,8 +7,8 @@
         lines = 15;
         columns = 60;
       };
-      opacity = 0.9;
-      blur = true;
+      opacity = 1.0;
+      blur = false;
       dynamic_title = true;
       decorations = "None";
     };

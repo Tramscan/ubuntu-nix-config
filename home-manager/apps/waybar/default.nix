@@ -8,11 +8,19 @@
       position = "top";
       height = 30;
       output = [
+	"DP-3"
 	"DP-2"
-	"DP-1"
       ];
       modules-left = [ "sway/workspaces" "sway/mode" "wlr/taskbar" ];
       modules-right = [ "mpd" "pulseaudio" "clock" "custom/spacer" "custom/shutdown" "custom/reboot" "custom/logout"];
+      modules-center = [ "hyprland/workspaces" ];
+      
+      "hyprland/workspaces"= {
+	format = "{id}";
+	on-click = "activate";
+	all-outputs = true;
+      };
+
 
       "clock" = {
 	format-alt = "{%H:%M}";

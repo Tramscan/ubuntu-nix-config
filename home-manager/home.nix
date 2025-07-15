@@ -34,7 +34,9 @@ let
   #  export NVIDIA_DRIVER_VERSION=${nvidiaVersion}
   #  exec ${nixGLNvidiaBin} ${alacrittyBin} "$@"
   #'';
-
+  wrappedSteam = pkgs.writeShellScriptBin "steam" ''
+    LD_LIBRARY_PATH= exec /usr/bin/steam "$@"
+  '';
  # pkgsMesa24_2_7 = import inputs.nixpkgs-mesa-24-2-7 {
  #   inherit (pkgs) system;
  # };
@@ -118,7 +120,18 @@ in rec{
 	libglvnd
 	xwayland
 	nixgl.packages.${pkgs.system}.nixGLNvidia
+	nixgl.packages.${pkgs.system}.nixGLDefault
+	nixgl.packages.${pkgs.system}.nixGLNvidiaBumblebee
 	wofi
+	wrappedSteam
+	#pokemmo-installer
+	  (pkgs.pokemmo-installer.overrideAttrs (oldAttrs: {
+	      buildInputs = (oldAttrs.buildInputs or []) ++ [ pkgs.makeWrapper ]; # Include makeWrapper in buildInputs
+	      postInstall = ''
+		wrapProgram "$out/bin/pokemmo-installer" \
+		  --set __GL_THREADED_OPTIMIZATIONS 0 
+	      '';
+	    }))
 	#hyprlandModule.hyprlandWrapper
 	# hyprland
     # # You can also create simple shell scripts directly inside your
