@@ -124,6 +124,7 @@ in rec{
 	nixgl.packages.${pkgs.system}.nixGLNvidiaBumblebee
 	wofi
 	wrappedSteam
+	qbittorrent
 	#pokemmo-installer
 	  (pkgs.pokemmo-installer.overrideAttrs (oldAttrs: {
 	      buildInputs = (oldAttrs.buildInputs or []) ++ [ pkgs.makeWrapper ]; # Include makeWrapper in buildInputs

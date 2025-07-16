@@ -92,8 +92,20 @@
       # prefer_zero_gpu = true;
 
       monitor = [
-	"DP-3,2560x1440,0x0,1"
-	"DP-2,2560x1440,2560x0,1"
+	"DP-3,2560x1440@144,0x0,1"
+	"DP-2,2560x1440@144,2560x0,1"
+	"HDMI-1,3840x2160@60,-3840x0,1"
+	"HEADLESS-1, 3840x2160@144, auto, 1"
+	"HEADLESS-2, 3840x2160@144, auto, 1"
+	"HEADLESS-3, 3840x2160@144, auto, 1"
+      ];
+
+      workspace = [
+	"1, monitor:DP-3, persistent:true"
+	"2, monitor:DP-2, persistent:true"
+	"10, monitor:HEADLESS-1, persistent:true"
+	"11, monitor:HEADLESS-2, persistent:true"
+	"12, monitor:HEADLESS-3, persistent:true"
       ];
 
       cursor = {
