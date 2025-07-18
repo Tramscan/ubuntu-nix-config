@@ -41,6 +41,15 @@ let
  #   inherit (pkgs) system;
  # };
 
+  sunshineAudioScript = pkgs.writeShellScriptBin "sunshine-audio-setup" ''
+    #!${pkgs.runtimeShell}
+    # Load the virtual sink
+    ${pkgs.pulseaudio}/bin/pactl load-module module-null-sink sink_name=sunshine-sink sink_properties=device.description="Sunshine_Virtual_Sink"
+    
+    # Load the virtual microphone that listens to the sink
+    ${pkgs.pulseaudio}/bin/pactl load-module module-remap-source master=sunshine-sink.monitor source_name=sunshine-mic source_properties=device.description="Sunshine_Mic"
+  '';
+
  # hyprlandModule = import ./apps/hyprland/default.nix {
  #   inherit pkgs inputs config lib;
  #   nixGLWithVersion = nixGLWithVersion; # Pass custom wrapper
@@ -95,6 +104,56 @@ in rec{
   nixpkgs.config.allowUnfreePredicate = (pkg: true);
   # The home.packages option allows you to install Nix packages into your
   # environment.
+
+  # 1. Create a startup script for our audio setup
+  # This avoids editing system files and runs commands we know are safe.
+  systemd.user.services."sunshine-audio-setup" = {
+    Unit = {
+      Description = "Setup virtual audio devices for Sunshine";
+      # This is critical: it waits until your main audio service is running.
+      After = [ "pulseaudio.service" ];
+    };
+
+    Service = {
+      # We use a simple shell script to run the commands.
+      Type = "oneshot";
+      ExecStart = "${sunshineAudioScript}/bin/sunshine-audio-setup";
+    };
+
+    Install = {
+      # This ensures the script runs when you log in.
+      WantedBy = [ "default.target" ];
+    };
+  };
+
+  # 2. Fix the video capture error by enabling the correct portal for Hyprland
+  # This part is still necessary for Wayland screen sharing.
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+  };
+
+  # 3. Manage Sunshine with Nix to ensure it runs correctly as a user service
+  systemd.user.services.sunshine = {
+    Unit = {
+      Description = "Sunshine Game Stream Host";
+      # This ensures the audio devices are created BEFORE Sunshine starts.
+      After = [ "graphical-session.target" "sunshine-audio-setup.service" ];
+      Wants = [ "sunshine-audio-setup.service" ];
+    };
+    Service = {
+      # We get the sunshine command from the package we install below.
+      ExecStart = "${pkgs.sunshine}/bin/sunshine";
+      Restart = "on-failure";
+      RestartSec = 5;
+      AmbientCapabilities = [ "CAP_SYS_ADMIN" ];
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+  };
+
+
   home.packages = with pkgs; [
   	neofetch
 	#( if wrapWithNixGL == 1 then wrappedVesktop else vesktop )
@@ -125,6 +184,7 @@ in rec{
 	wofi
 	wrappedSteam
 	qbittorrent
+	sunshine
 	#pokemmo-installer
 	  (pkgs.pokemmo-installer.overrideAttrs (oldAttrs: {
 	      buildInputs = (oldAttrs.buildInputs or []) ++ [ pkgs.makeWrapper ]; # Include makeWrapper in buildInputs
