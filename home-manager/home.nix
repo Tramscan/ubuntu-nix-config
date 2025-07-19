@@ -143,10 +143,9 @@ in rec{
     };
     Service = {
       # We get the sunshine command from the package we install below.
-      ExecStart = "${pkgs.sunshine}/bin/sunshine";
+      ExecStart = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia-570.133.07 ${pkgs.sunshine}/bin/sunshine";
       Restart = "on-failure";
       RestartSec = 5;
-      AmbientCapabilities = [ "CAP_SYS_ADMIN" ];
     };
     Install = {
       WantedBy = [ "graphical-session.target" ];
