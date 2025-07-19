@@ -46,17 +46,21 @@ in {
 
       "custom/tailscale"  = {
         # This script runs on startup and when signaled to check the status.
+#	 exec = "echo '{\"text\": \"Test\"}'";
+
         exec = ''
           #!/usr/bin/env bash
           if tailscale status &>/dev/null; then
-              echo '{text = "Up"; tooltip = "Tailscale is Active"; class = "on";}'
+              printf '{text = "Up", tooltip = "Tailscale is Active", class = "on"}\n'
           else
-              echo '{"text": "Down", "tooltip": "Tailscale is Inactive", "class": "off"}'
+              printf '{"text": "Down", "tooltip": "Tailscale is Inactive", "class": "off"}\n'
           fi
         '';
 
-        format = "󰌙 {text}"; # VPN icon from Nerd Fonts
+	return-type = "json";
+        format = "Tailscale {}"; # VPN icon from Nerd Fonts
         on-click = "waybar-tailscale"; # Runs the script we defined above
+	interval = 20;
         restart-interval = 3600; # Effectively run once, but restart if it crashes
       };
 
