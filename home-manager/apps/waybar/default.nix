@@ -50,8 +50,8 @@ in {
 
         exec = ''
           #!/usr/bin/env bash
-          if tailscale status &>/dev/null; then
-              printf '{text = "Up", tooltip = "Tailscale is Active", class = "on"}\n'
+          if sudo tailscale status &>/dev/null; then
+              printf '{"text": "Up", "tooltip": "Tailscale is Active", "class": "on"}\n'
           else
               printf '{"text": "Down", "tooltip": "Tailscale is Inactive", "class": "off"}\n'
           fi
@@ -60,8 +60,9 @@ in {
 	return-type = "json";
         format = "Tailscale {}"; # VPN icon from Nerd Fonts
         on-click = "waybar-tailscale"; # Runs the script we defined above
-	interval = 20;
+	interval = 1;
         restart-interval = 3600; # Effectively run once, but restart if it crashes
+	signal = 8;
       };
 
       "clock" = {
