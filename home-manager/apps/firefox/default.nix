@@ -13,6 +13,6 @@
       categories = [ "Application" "Network" "WebBrowser" ];
       mimeType = [ "text/html" "text/xml" ];
     };
-  }
+  };
 
 }
