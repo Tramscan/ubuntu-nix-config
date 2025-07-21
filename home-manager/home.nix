@@ -50,6 +50,13 @@ let
 #    ${pkgs.pulseaudio}/bin/pactl load-module module-remap-source master=sunshine-sink.monitor source_name=sunshine-mic source_properties=device.description="Sunshine_Mic"
 #  '';
 
+  nixGLNvidia = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia-570.133.07";
+  
+  # Create wrapped versions
+    wrappedVesktop = pkgs.writeShellScriptBin "vesktop" ''
+    exec ${nixGLNvidia} ${pkgs.vesktop}/bin/vesktop "$@"
+  '';
+
  # hyprlandModule = import ./apps/hyprland/default.nix {
  #   inherit pkgs inputs config lib;
  #   nixGLWithVersion = nixGLWithVersion; # Pass custom wrapper
@@ -98,6 +105,8 @@ in rec{
         #})
 	./apps/hyprland
 	./apps/waybar
+	./apps/firefox
+	#maybe consider making a few more for ryujinx and steam so you can fix the desktop entries
   ];
 
 
@@ -157,8 +166,10 @@ in rec{
   home.packages = with pkgs; [
   	neofetch
 	#( if wrapWithNixGL == 1 then wrappedVesktop else vesktop )
-	vesktop
+	#vesktop
+	wrappedVesktop
 	picom
+	firefox
 	# i3blocks
 	waybar
 	protonup-qt
@@ -270,7 +281,6 @@ in rec{
       auto-allocate-uids = true;
       max-jobs = "auto";
       trusted-users = [ "nick" ];
-      extra-experimental-features = ["auto-allocate-uids"];
     };
     package = pkgs.nix;
   };
