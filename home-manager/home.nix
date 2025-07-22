@@ -91,7 +91,6 @@ in rec{
   #  })
   #];
 
-  sound.enable = true;
 
   imports = [
   	./apps/i3
@@ -195,6 +194,7 @@ in rec{
 	wrappedSteam
 	qbittorrent
 	sunshine
+	pipewire
 	#pokemmo-installer
 	  (pkgs.pokemmo-installer.overrideAttrs (oldAttrs: {
 	      buildInputs = (oldAttrs.buildInputs or []) ++ [ pkgs.makeWrapper ]; # Include makeWrapper in buildInputs
