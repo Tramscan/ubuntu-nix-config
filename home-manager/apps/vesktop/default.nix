@@ -30,5 +30,4 @@
   };
 
   sound.enable = true;
-  services.wireplumber.enable = true;
 }

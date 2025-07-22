@@ -282,11 +282,6 @@ in rec{
     package = pkgs.nix;
   };
 
-  services.pipewire = {
-    enable = true;
-    wireplumber.enable = true;
-  };
-  
   # Remove the nixpkgs.overlays section if it exists
   
   # Your remaining configurations...
