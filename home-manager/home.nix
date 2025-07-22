@@ -52,11 +52,14 @@ let
 
   nixGLNvidia = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia-570.133.07";
   
+<<<<<<< HEAD
   # Create wrapped versions
     wrappedVesktop = pkgs.writeShellScriptBin "vesktop" ''
     exec ${nixGLNvidia} ${pkgs.vesktop}/bin/vesktop "$@"
   '';
 
+=======
+>>>>>>> 300283e (vesktop configuration)
  # hyprlandModule = import ./apps/hyprland/default.nix {
  #   inherit pkgs inputs config lib;
  #   nixGLWithVersion = nixGLWithVersion; # Pass custom wrapper
@@ -105,8 +108,12 @@ in rec{
         #})
 	./apps/hyprland
 	./apps/waybar
+<<<<<<< HEAD
 	./apps/firefox
 	#maybe consider making a few more for ryujinx and steam so you can fix the desktop entries
+=======
+	./apps/vesktop
+>>>>>>> 300283e (vesktop configuration)
   ];
 
 
@@ -139,7 +146,10 @@ in rec{
   # This part is still necessary for Wayland screen sharing.
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+    extraPortals = [ 
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-hyprland
+    ];
   };
 
   # 3. Manage Sunshine with Nix to ensure it runs correctly as a user service
@@ -166,11 +176,16 @@ in rec{
   home.packages = with pkgs; [
   	neofetch
 	#( if wrapWithNixGL == 1 then wrappedVesktop else vesktop )
+<<<<<<< HEAD
 	#vesktop
 	wrappedVesktop
 	picom
 	firefox
 	# i3blocks
+=======
+	picom
+	#i3blocks
+>>>>>>> 300283e (vesktop configuration)
 	waybar
 	protonup-qt
 	mujoco
