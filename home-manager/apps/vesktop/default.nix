@@ -15,7 +15,7 @@
 
     };
 
-  vesktop = {
+  programs.vesktop = {
     settings = {
       hardwareAcceleration = true;
     };
