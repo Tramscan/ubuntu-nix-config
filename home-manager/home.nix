@@ -91,6 +91,8 @@ in rec{
   #  })
   #];
 
+  sound.enable = true;
+
   imports = [
   	./apps/i3
 	./apps/nixvim

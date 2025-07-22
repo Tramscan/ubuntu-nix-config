@@ -29,5 +29,4 @@
     };
   };
 
-  sound.enable = true;
 }
