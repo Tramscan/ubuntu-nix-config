@@ -29,8 +29,6 @@
     };
   };
 
-  services.pipewire = {
-    enable = true;
-    wireplumber.enable = true;
-  };
+  sound.enable = true;
+  services.wireplumber.enable = true;
 }
