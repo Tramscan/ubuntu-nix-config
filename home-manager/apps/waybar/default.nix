@@ -31,8 +31,8 @@ in {
       position = "top";
       height = 30;
       output = [
-	"DP-3"
 	"DP-2"
+	"DP-1"
       ];
       modules-left = [ "sway/workspaces" "sway/mode" "wlr/taskbar" ];
       modules-right = [ "mpd" "custom/tailscale" "pulseaudio" "clock" "custom/spacer" "custom/shutdown" "custom/reboot" "custom/logout"];
