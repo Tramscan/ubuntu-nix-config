@@ -52,10 +52,6 @@ let
 
   nixGLNvidia = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia-570.133.07";
   
-  # Create wrapped versions
-    wrappedVesktop = pkgs.writeShellScriptBin "vesktop" ''
-    exec ${nixGLNvidia} ${pkgs.vesktop}/bin/vesktop "$@"
-  '';
 
  # hyprlandModule = import ./apps/hyprland/default.nix {
  #   inherit pkgs inputs config lib;
@@ -95,6 +91,7 @@ in rec{
   #  })
   #];
 
+
   imports = [
   	./apps/i3
 	./apps/nixvim
@@ -107,6 +104,7 @@ in rec{
 	./apps/waybar
 	./apps/firefox
 	#maybe consider making a few more for ryujinx and steam so you can fix the desktop entries
+	./apps/vesktop
   ];
 
 
@@ -139,7 +137,10 @@ in rec{
   # This part is still necessary for Wayland screen sharing.
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+    extraPortals = [ 
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-hyprland
+    ];
   };
 
   # 3. Manage Sunshine with Nix to ensure it runs correctly as a user service
@@ -166,11 +167,8 @@ in rec{
   home.packages = with pkgs; [
   	neofetch
 	#( if wrapWithNixGL == 1 then wrappedVesktop else vesktop )
-	#vesktop
-	wrappedVesktop
 	picom
-	firefox
-	# i3blocks
+	#i3blocks
 	waybar
 	protonup-qt
 	mujoco
@@ -196,6 +194,7 @@ in rec{
 	wrappedSteam
 	qbittorrent
 	sunshine
+	pipewire
 	#pokemmo-installer
 	  (pkgs.pokemmo-installer.overrideAttrs (oldAttrs: {
 	      buildInputs = (oldAttrs.buildInputs or []) ++ [ pkgs.makeWrapper ]; # Include makeWrapper in buildInputs
