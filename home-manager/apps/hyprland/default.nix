@@ -101,8 +101,8 @@
       ];
 
       workspace = [
-	"1, monitor:DP-3, persistent:true"
-	"2, monitor:DP-2, persistent:true"
+	"1, monitor:DP-2, persistent:true"
+	"2, monitor:DP-1, persistent:true"
 	"10, monitor:HEADLESS-1, persistent:true"
 	"11, monitor:HEADLESS-2, persistent:true"
 	"12, monitor:HEADLESS-3, persistent:true"
