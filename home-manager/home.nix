@@ -105,6 +105,7 @@ in rec{
 	./apps/firefox
 	#maybe consider making a few more for ryujinx and steam so you can fix the desktop entries
 	./apps/vesktop
+	./apps/kicad
   ];
 
 
