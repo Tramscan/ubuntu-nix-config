@@ -195,7 +195,7 @@ in rec{
 	qbittorrent
 	sunshine
 	pipewire
-	npm
+	nodejs_24
 	#pokemmo-installer
 	  (pkgs.pokemmo-installer.overrideAttrs (oldAttrs: {
 	      buildInputs = (oldAttrs.buildInputs or []) ++ [ pkgs.makeWrapper ]; # Include makeWrapper in buildInputs
