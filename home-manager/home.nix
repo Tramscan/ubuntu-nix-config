@@ -1,8 +1,8 @@
 { config, pkgs, lib, inputs, nixgl, ... }:
 
-let
+#let
   
-  nixGLHyprlandWrapper = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia";
+  #nixGLHyprlandWrapper = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia";
 
   # Create custom nixGL wrapper with explicit NVIDIA version
   #nixGLWithVersion = let
@@ -46,10 +46,10 @@ let
  #   inherit pkgs inputs config lib;
  #   nixGLWithVersion = nixGLWithVersion; # Pass custom wrapper
  # };
-in rec{
+#in rec{
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
- 
+ {
  home.username = "nick";
   home.homeDirectory = "/home/nick";
   
@@ -81,18 +81,18 @@ in rec{
   #  })
   #];
   
-  xdg.desktopEntries.hyprland = {
-    name = "Hyprland (test)";
-    comment = "An Intelligent dynamic tiling Wayland compositor (for ubuntu/nix/home-manager/nvidia)";
-    exec = "Exec=env WLR_RENDERER=vulkan GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia LIBVA_DRIVER_NAME=nvidia XDG_SESSION_TYPE=wayland LIBGL_DRIVERS_PATH=/run/opengl-driver/lib/gbm NIXPKGS_ALLOW_UNFREE=1 ${nixGLHyprlandWrapper} Hyprland";
-    type = "Application";
-  };
+ # xdg.desktopEntries.hyprland = {
+ #   name = "Hyprland (test)";
+ #   comment = "An Intelligent dynamic tiling Wayland compositor (for ubuntu/nix/home-manager/nvidia)";
+ #   exec = "Exec=env WLR_RENDERER=vulkan GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia LIBVA_DRIVER_NAME=nvidia XDG_SESSION_TYPE=wayland LIBGL_DRIVERS_PATH=/run/opengl-driver/lib/gbm NIXPKGS_ALLOW_UNFREE=1 ${nixGLHyprlandWrapper} Hyprland";
+ #   type = "Application";
+ # };
 
 
   imports = [
   	./apps/i3
-	./apps/nixvim
-	./apps/alacritty
+	#./apps/nixvim
+	#./apps/alacritty
 	#(builtins.fetchurl {
 	#  url = "https://raw.githubusercontent.com/Smona/home-manager/nixgl-compat/modules/misc/nixgl.nix";
 	#  sha256 = "f14874544414b9f6b068cfb8c19d2054825b8531f827ec292c2b0ecc5376b305";
@@ -128,7 +128,7 @@ in rec{
 	wayland-protocols
 	libglvnd
 	xwayland
-	nixgl.packages.${pkgs.system}.nixGLNvidia
+	#nixgl.packages.${pkgs.system}.nixGLNvidia
 	wofi
 	#hyprlandModule.hyprlandWrapper
 	# hyprland
