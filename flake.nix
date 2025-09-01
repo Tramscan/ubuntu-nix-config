@@ -26,13 +26,18 @@
   outputs = { self, nixpkgs, home-manager, nixvim, nixgl, ... }@inputs: 
   let
     system = "x86_64-linux";
+    #nixgl-overlay = import ./nixgl-overlay.nix { inherit pkgs; };
     pkgs = import nixpkgs {
       inherit system;
       config.allowUnfree = true;
       config.allowUnfreePredicate = (_: true);
     };
   in {
+<<<<<<< Updated upstream
     #packages.${system}.nix-gl-host = nix-gl-host.defaultPackage.${system.nix-gl-host};
+=======
+    # packages.${system}.nix-gl-host = nix-gl-host.defaultPackage.${system.nix-gl-host};
+>>>>>>> Stashed changes
 
     homeConfigurations = {
       nick = home-manager.lib.homeManagerConfiguration {

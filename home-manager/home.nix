@@ -42,6 +42,21 @@
  #   inherit (pkgs) system;
  # };
 
+<<<<<<< Updated upstream
+=======
+ # sunshineAudioScript = pkgs.writeShellScriptBin "sunshine-audio-setup" ''
+    #!${pkgs.runtimeShell}
+    # Load the virtual sink
+ #   ${pkgs.pulseaudio}/bin/pactl load-module module-null-sink sink_name=sunshine-sink sink_properties=device.description="Sunshine_Virtual_Sink"
+    
+    # Load the virtual microphone that listens to the sink
+#    ${pkgs.pulseaudio}/bin/pactl load-module module-remap-source master=sunshine-sink.monitor source_name=sunshine-mic source_properties=device.description="Sunshine_Mic"
+#  '';
+
+  #nixGLNvidia = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia-575.64.03";
+  
+
+>>>>>>> Stashed changes
  # hyprlandModule = import ./apps/hyprland/default.nix {
  #   inherit pkgs inputs config lib;
  #   nixGLWithVersion = nixGLWithVersion; # Pass custom wrapper
@@ -98,12 +113,76 @@
 	#  sha256 = "f14874544414b9f6b068cfb8c19d2054825b8531f827ec292c2b0ecc5376b305";
         #})
 	./apps/hyprland
+<<<<<<< Updated upstream
+=======
+	./apps/waybar
+	./apps/firefox
+	#maybe consider making a few more for ryujinx and steam so you can fix the desktop entries
+	./apps/vesktop
+	#./apps/kicad
+>>>>>>> Stashed changes
   ];
 
 
   nixpkgs.config.allowUnfreePredicate = (pkg: true);
   # The home.packages option allows you to install Nix packages into your
   # environment.
+<<<<<<< Updated upstream
+=======
+
+  # 1. Create a startup script for our audio setup
+  # This avoids editing system files and runs commands we know are safe.
+#  systemd.user.services."sunshine-audio-setup" = {
+#    Unit = {
+#      Description = "Setup virtual audio devices for Sunshine";
+#      # This is critical: it waits until your main audio service is running.
+#      After = [ "pulseaudio.service" ];
+#    };
+
+ #   Service = {
+ #     # We use a simple shell script to run the commands.
+ #     Type = "oneshot";
+ #     ExecStart = "${sunshineAudioScript}/bin/sunshine-audio-setup";
+ #   };
+
+ #   Install = {
+      # This ensures the script runs when you log in.
+ #     WantedBy = [ "default.target" ];
+ #   };
+ # };
+
+  # 2. Fix the video capture error by enabling the correct portal for Hyprland
+  # This part is still necessary for Wayland screen sharing.
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ 
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-hyprland
+    ];
+  };
+
+  # 3. Manage Sunshine with Nix to ensure it runs correctly as a user service
+  #systemd.user.services.sunshine = {
+  #  Unit = {
+  #    Description = "Sunshine Game Stream Host";
+      # This ensures the audio devices are created BEFORE Sunshine starts.
+      #After = [ "graphical-session.target" "sunshine-audio-setup.service" ];
+  #    After = [ "graphical-session.target" ];
+      #Wants = [ "sunshine-audio-setup.service" ];
+   # };
+   # Service = {
+      # We get the sunshine command from the package we install below.
+  #    ExecStart = "${nixgl.packages.${pkgs.system}.nixGLNvidia}/bin/nixGLNvidia-570.133.07 ${pkgs.sunshine}/bin/sunshine";
+  #    Restart = "on-failure";
+  #    RestartSec = 5;
+  #  };
+  #  Install = {
+  #    WantedBy = [ "graphical-session.target" ];
+  #  };
+  #};
+
+
+>>>>>>> Stashed changes
   home.packages = with pkgs; [
   	neofetch
 	#( if wrapWithNixGL == 1 then wrappedVesktop else vesktop )
@@ -129,6 +208,11 @@
 	libglvnd
 	xwayland
 	#nixgl.packages.${pkgs.system}.nixGLNvidia
+<<<<<<< Updated upstream
+=======
+	nixgl.packages.${pkgs.system}.nixGLDefault
+	#nixgl.packages.${pkgs.system}.nixGLNvidiaBumblebee
+>>>>>>> Stashed changes
 	wofi
 	#hyprlandModule.hyprlandWrapper
 	# hyprland
@@ -179,6 +263,8 @@
     LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
     NIXPKGS_ALLOW_UNFREE = 1;
     NIXOS_OZONE_WL = "1";
+    #remove later
+    #nixGLNvidia = "${pkgs.lib.getExe pkgs.nixgl}";
 
     #Hyprland NVIDIA Variables
     #WLR_RENDERER = "vulkan";
