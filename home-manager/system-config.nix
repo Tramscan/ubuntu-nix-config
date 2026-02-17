@@ -118,6 +118,34 @@ in
       readOnly = true;
       description = "Whether GPU acceleration is configured";
     };
+
+    # Documentation server
+    enableDocsServer = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = ''
+        Enable the documentation web server. When true, starts a local
+        web server on the specified port serving the documentation.
+        Default is false for security.
+      '';
+    };
+
+    docsServerPort = lib.mkOption {
+      type = lib.types.port;
+      default = 8080;
+      description = ''
+        Port for the documentation server.
+      '';
+    };
+
+    docsServerBind = lib.mkOption {
+      type = lib.types.str;
+      default = "0.0.0.0";
+      description = ''
+        Network interface to bind the documentation server to.
+        Use "127.0.0.1" for localhost only, or "0.0.0.0" for all interfaces.
+      '';
+    };
   };
 
   config = {
@@ -129,5 +157,37 @@ in
       then "${selectedVariant.package}/bin/${selectedVariant.binary}"
       else null;
     systemConfig.hasGPUAcceleration = cfg.nixGLVariant != "none";
+
+    # Documentation server service
+    systemd.user.services.just-enough-nix-docs = lib.mkIf cfg.enableDocsServer {
+      Unit = {
+        Description = "Just Enough Nix Documentation Server";
+        After = [ "network.target" ];
+      };
+      Service = {
+        Type = "simple";
+        ExecStart = let
+          docsDir = "${config.home.homeDirectory}/.config/nix/docs";
+          script = pkgs.writeShellScript "docs-server" ''
+            DOCS_DIR="${docsDir}"
+            PORT="${toString cfg.docsServerPort}"
+            BIND="${cfg.docsServerBind}"
+            
+            if [ ! -d "$DOCS_DIR" ]; then
+              echo "Docs directory not found: $DOCS_DIR"
+              exit 1
+            fi
+            
+            cd "$DOCS_DIR"
+            ${pkgs.python3}/bin/python3 -m http.server "$PORT" --bind "$BIND"
+          '';
+        in "${script}";
+        Restart = "on-failure";
+        RestartSec = 5;
+      };
+      Install = {
+        WantedBy = [ "default.target" ];
+      };
+    };
   };
 }

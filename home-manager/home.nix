@@ -1,18 +1,21 @@
 { config, pkgs, lib, inputs, nixgl, ... }:
 
 let
-  # Detect if this is NVIDIA system
-  isNvidia = config.systemConfig.nixGLVariant == "nvidia";
+  # System config loading
+  # Check for active-system config file
+  activeSystemFile = "${config.home.homeDirectory}/.config/nix/active-system";
+  systemConfigFile = "/home/nick/.config/nix/systems/laptop.nix"; # Change this per system
   
-  # Get NVIDIA version (manual overrides auto)
+  # Check if we should use system-specific config
+  hasSystemConfig = builtins.pathExists systemConfigFile;
+  
+  # NVIDIA version - if no config, use defaults
   nvidiaVersion = 
     if config.nvidiaManagement.manualVersion != null 
     then config.nvidiaManagement.manualVersion
-    else if config.nvidiaManagement.enableAutoDetection
-    then config.nvidiaManagement.fallbackVersion
-    else "570.133.07";
+    else config.nvidiaManagement.fallbackVersion;
 
-  # Build nixGL command based on variant
+  # Build nixGL command
   nixGLCmd = let
     variant = config.systemConfig.nixGLVariant;
     base = nixgl.packages.${pkgs.system};
@@ -41,41 +44,33 @@ in
     ./apps/firefox
     ./apps/vesktop
     ./apps/kicad
-  ];
+    # Optional: Import system-specific config if it exists
+  ] ++ lib.optional hasSystemConfig systemConfigFile;
 
-  # ============================================
-  # BASIC SETTINGS
-  # ============================================
+  # Allow unfree without env var
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfreePredicate = (_: true);
+
+  # Basic settings
   home.username = "nick";
   home.homeDirectory = "/home/nick";
   home.stateVersion = "24.05";
 
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.allowUnfreePredicate = (pkg: true);
+  # Defaults (overridden by imported system config)
+  systemConfig = {
+    systemType = lib.mkDefault "desktop";
+    nixGLVariant = lib.mkDefault "nvidia";
+  };
 
-  # ============================================
-  # DEFAULT CONFIGURATION (override in system-specific files)
-  # ============================================
-  
-  # A. Auto-detect NVIDIA drivers? Set to false to use manual version
-  nvidiaManagement.enableAutoDetection = lib.mkDefault true;
-  
-  # B. Manual version override (null = use auto-detect)
-  # Set to "570.133.07" to pin that version
-  nvidiaManagement.manualVersion = lib.mkDefault null;
-  
-  nvidiaManagement.regenerateDesktopFile = lib.mkDefault true;
-  nvidiaManagement.fallbackVersion = lib.mkDefault "570.133.07";
+  nvidiaManagement = {
+    enableAutoDetection = lib.mkDefault true;
+    manualVersion = lib.mkDefault null;
+    regenerateDesktopFile = lib.mkDefault true;
+    fallbackVersion = "570.133.07";
+  };
 
-  # System type and nixGL variant
-  systemConfig.systemType = lib.mkDefault "desktop";
-  systemConfig.nixGLVariant = lib.mkDefault "nvidia";
-
-  # ============================================
-  # NVIDIA VERSION DETECTION SERVICE
-  # Runs before display manager to detect/driver updates
-  # ============================================
-  systemd.user.services.nvidia-version-manager = lib.mkIf isNvidia {
+  # NVIDIA service
+  systemd.user.services.nvidia-version-manager = lib.mkIf (config.systemConfig.nixGLVariant == "nvidia") {
     Unit = {
       Description = "NVIDIA Driver Version Manager";
       Before = [ "graphical-session-pre.target" ];
@@ -89,27 +84,12 @@ in
           
           DETECTED=""
           if command -v nvidia-smi &>/dev/null; then
-            DETECTED=$(nvidia-smi --query-gpu=driver_version --format=csv,noheader 2>/dev/null | head -n1 | tr -d '[:space:]')
+            DETECTED=$(nvidia-smi --query-gpu=driver_version --format=csv,noheader 2>/dev/null | head -n1 | tr -d '[:space:]' || true)
           fi
           [ -z "$DETECTED" ] && DETECTED="${nvidiaVersion}"
           
           echo "[nvidia-version] Version: $DETECTED"
           echo "NVIDIA_VERSION=$DETECTED" > "$CONFIG/nvidia-version.conf"
-          
-          # Update .desktop file if enabled and running as user with sudo
-          DESKTOP="/usr/share/wayland-sessions/hyprland.desktop"
-          if command -v sudo &>/dev/null && [ -d "$(dirname $DESKTOP)" ]; then
-            cat > /tmp/hyprland.desktop.new << DESKTOP_EOF
-[Desktop Entry]
-Name=Hyprland
-Comment=An intelligent dynamic tiling Wayland compositor
-Exec=env WLR_RENDERER=vulkan GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia LIBVA_DRIVER_NAME=nvidia XDG_SESSION_TYPE=wayland LIBGL_DRIVERS_PATH=/run/opengl-driver/lib/gbm NIXPKGS_ALLOW_UNFREE=1 nixGLNvidia-$DETECTED Hyprland
-Type=Application
-DesktopNames=Hyprland
-Keywords=tiling;wayland;compositor;
-DESKTOP_EOF
-            sudo mv /tmp/hyprland.desktop.new "$DESKTOP": 2>/dev/null || true
-          fi
         '';
       in "${script}";
       RemainAfterExit = true;
@@ -117,58 +97,25 @@ DESKTOP_EOF
     Install = { WantedBy = [ "default.target" ]; };
   };
 
-  # ============================================
-  # SERVICES & PACKAGES
-  # ============================================
+  # XDG portal
   xdg.portal = {
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-hyprland ];
   };
 
-  systemd.user.services.sunshine = lib.mkIf isNvidia {
-    Unit = {
-      Description = "Sunshine Game Stream Host";
-      After = [ "graphical-session.target" ];
-    };
-    Service = {
-      ExecStart = lib.mkIf (nixGLCmd != null) 
-        "${nixGLCmd} ${pkgs.sunshine}/bin/sunshine";
-      Restart = "on-failure";
-    };
-    Install = { WantedBy = [ "graphical-session.target" ]; };
-  };
-
+  # Packages
   home.packages = with pkgs; [
-    neofetch
-    picom
-    waybar
-    protonup-qt
-    mujoco
-    freecad
-    mesa-demos
-    alacritty
-    gh
-    pavucontrol
-    zenith-nvidia
-    obsidian
-    libva
-    egl-wayland
-    wayland
-    wayland-protocols
-    libglvnd
-    xwayland
+    neofetch picom waybar protonup-qt mujoco freecad mesa-demos
+    alacritty gh pavucontrol zenith-nvidia obsidian
+    libva egl-wayland wayland wayland-protocols libglvnd xwayland
     nixgl.packages.${pkgs.system}.nixGLNvidia
     nixgl.packages.${pkgs.system}.nixGLDefault
     nixgl.packages.${pkgs.system}.nixGLNvidiaBumblebee
     nixgl.packages.${pkgs.system}.nixGLIntel
-    wofi
-    wrappedSteam
-    qbittorrent
-    sunshine
-    pipewire
-    nodejs_24
+    wofi wrappedSteam qbittorrent sunshine pipewire nodejs_24
   ];
 
+  # Session variables (but not NIXPKGS_ALLOW_UNFREE - that's in nix.conf)
   home.sessionVariables = {
     SUDO_EDITOR = "nvim";
     SYSTEMD_EDITOR = "nvim";
@@ -176,23 +123,38 @@ DESKTOP_EOF
     VISUAL = "nvim";
     TERMINAL = "alacritty";
     LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
-    NIXPKGS_ALLOW_UNFREE = 1;
     NIXOS_OZONE_WL = "1";
   };
 
+  # Shell aliases (for convenience)
+  programs.bash.shellAliases = {
+    "hm-switch" = "home-manager switch --flake ~/.config/nix";
+    "nvidia-update" = "~/.config/nix/scripts/nvidia-version-manager.sh update";
+  };
+  programs.zsh.shellAliases = {
+    "hm-switch" = "home-manager switch --flake ~/.config/nix";
+    "nvidia-update" = "~/.config/nix/scripts/nvidia-version-manager.sh update";
+  };
+
+  # nix.conf - this makes ALLOW_UNFREE automatic
+  home.file.".config/nix/nix.conf".text = ''
+    experimental-features = nix-command flakes auto-allocate-uids
+    auto-optimise-store = true
+    allow-unfree = true
+    accept-flake-config = true
+  '';
+
   programs.home-manager.enable = true;
+  programs.kitty.enable = true;
+  programs.alacritty = { enable = true; };
 
   nix = {
     settings = {
       experimental-features = [ "nix-command" "flakes" "auto-allocate-uids"];
       auto-optimise-store = true;
-      auto-allocate-uid = true;
       max-jobs = "auto";
       trusted-users = [ "nick" ];
     };
     package = pkgs.nix;
   };
-
-  programs.kitty.enable = true;
-  programs.alacritty = { enable = true; };
 }
