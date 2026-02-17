@@ -1,117 +1,155 @@
-# ubuntu-nix-config
+# Ubuntu Nix Config - Auto NVIDIA Version Management
 
-These configs require some setup to get started. This is a Nix config of Hyprland (or i3 if you want) using home-manager, designed to be used with Ubuntu and Nvidia GPU systems. 
+Declarative Ubuntu+Nix+home-manager setup with automatic NVIDIA driver version detection.
 
-## Setup
+## 🚀 Quick Start
 
-1. Install git and nix
+```bash
+# Clone
+git clone https://github.com/Tramscan/ubuntu-nix-config.git ~/.config/nix
 
+# Run interactive onboarding (first-time setup)
+./scripts/onboard.sh
+
+# Or configure manually, then switch
+home-manager switch --flake ~/.config/nix
 ```
 
-sudo apt install git nix
+## ✨ New Features
 
+### A. Auto-Detection Toggle
+Set once, forget about it:
+```nix
+nvidiaManagement.enableAutoDetection = true;  # Automatically detect driver version
+nvidiaManagement.regenerateDesktopFile = true; # Update hyprland.desktop at boot
 ```
 
-2. Clone the repo
-
+### B. Manual Version Override
+Pin a specific version for stability or downgrade:
+```nix
+nvidiaManagement.manualVersion = "570.133.07";  # Pin this version
+# OR
+nvidiaManagement.manualVersion = null;  # Use auto-detect
 ```
 
-git clone https://github.com/Tramscan/ubuntu-nix-config.git UBUNTU_NIX_CONFIG_LOCATION
+### C. Multi-System Support
+```bash
+# Onboard a new system (laptop, desktop, etc.)
+./scripts/onboard.sh
 
+# Creates:
+# ~/.config/nix/systems/my-laptop.nix
+# ~/.config/nix/active-system
 ```
 
-3. Install graphics drivers/dependencies
+## 🖥️ nixGL Variants
 
-Listed below are the reccomended drivers for Nvidia GPUs as this is what I've gotten working most recently. In the future I will update this to either autodetect the nvidia driver version for the nixGL portion of `home.nix` and the `hyprland.desktop` wrapping, but that is a future nick task.
+Choose your GPU wrapper:
+| Variant | Use Case |
+|---------|----------|
+| `none` | No wrapper, use system OpenGL |
+| `default` | Auto-detect GPU |
+| `nvidia` | NVIDIA proprietary (with version management) |
+| `bumblebee` | NVIDIA Optimus hybrid |
+| `intel` | Intel integrated |
 
+## 📋 Commands
+
+```bash
+# Check status
+./scripts/nvidia-version-manager.sh status
+
+# Set manual override (pin version)
+./scripts/nvidia-version-manager.sh set-override 570.133.07
+
+# Clear override (use auto-detect)
+./scripts/nvidia-version-manager.sh clear-override
+
+# Force update configs
+./scripts/nvidia-version-manager.sh update
+
+# Re-run onboarding
+./scripts/onboard.sh --force
 ```
 
-sudo apt update
+## 🔧 Configuration Files
 
-sudo apt install nvidia-driver-570=570.133.07-0ubuntu0.22.04.1 libnvidia-gl-570=570.133.07-0ubuntu0.22.04.1 libnvidia-egl-gbm1=1.1.0-1 libnvidia-egl-wayland1=1.1.10-1 libegl1 libgl1 libglvnd0 libglx0 libdrm2 libgbm1 libxcb-randr0 libexpat1
+| File | Purpose |
+|------|---------|
+| `~/.config/nix/nvidia-version.conf` | Cached version info (auto-generated) |
+| `~/.config/nix/nvidia-version-override` | Manual version override |
+| `~/.config/nix/systems/<name>.nix` | Per-system config |
+| `~/.config/nix/active-system` | Link to active config |
 
-```
-
-4. Switch the configuration
-
-I want to set unfree here because I haven't fixed it in the config yet, chances are you don't have it set on a fresh system anyways.
-
-```
-
-export NIXPKGS_ALLOW_UNFREE=1
+## 🏗️ Architecture
 
 ```
-
+flake.nix
+├── home-manager/
+│   ├── home.nix              (main config)
+│   ├── nvidia-config.nix     (NVIDIA options)
+│   ├── system-config.nix       (system type options)
+│   └── systems/
+│       └── laptop-template.nix (example)
+└── scripts/
+    ├── onboard.sh              (setup wizard)
+    └── nvidia-version-manager.sh (CLI tool)
 ```
 
-home-manager switch --flake UBUNTU_NIX_CONFIG_LOCATION --impure
+## 🔌 Systemd Service
 
+The `nvidia-version-manager` user service runs at login:
+- Detects current NVIDIA driver version
+- Updates `~/.config/nix/nvidia-version.conf`
+- Regenerates `/usr/share/wayland-sessions/hyprland.desktop`
+
+This happens **before** Hyprland starts, so you won't get a black screen after driver updates.
+
+## Example Configurations
+
+### Desktop with NVIDIA (auto-detect)
+```nix
+{
+  systemConfig.systemType = "desktop";
+  systemConfig.nixGLVariant = "nvidia";
+  
+  nvidiaManagement.enableAutoDetection = true;
+  nvidiaManagement.regenerateDesktopFile = true;
+}
 ```
 
-5. Modify your `/usr/share/wayland-sessions/hyprland.desktop`
-
-`sudo nano /usr/share/wayland-sessions/hyprland.desktop`
-
-The `Exec=` block should look like this:
-
+### Laptop with Intel
+```nix
+{
+  systemConfig.systemType = "laptop";
+  systemConfig.nixGLVariant = "intel";
+}
 ```
 
-Exec=env WLR_RENDERER=vulkan GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia LIBVA_DRIVER_NAME=nvidia XDG_SESSION_TYPE=wayland LIBGL_DRIVERS_PATH=/run/opengl-driver/lib/gbm NIXPKGS_ALLOW_UNFREE=1 nixGLNvidia-570.133.07 Hyprland
-
+### Desktop with pinned version
+```nix
+{
+  systemConfig.nixGLVariant = "nvidia";
+  nvidiaManagement.manualVersion = "570.86.16";  # Pin older version
+}
 ```
 
-Or, if you want the whole file:
+## Troubleshooting
 
-`sudo nano /usr/share/wayland-sessions/hyprland.desktop`
+**Hyprland won't start after NVIDIA update:**
+1. Switch to TTY (Ctrl+Alt+F3)
+2. Run: `./scripts/nvidia-version-manager.sh update`
+3. Or: `sudo /usr/share/wayland-sessions/hyprland.desktop` to check what's used
 
+**Wrong version detected:**
+```bash
+# Pin manually
+./scripts/nvidia-version-manager.sh set-override $(nvidia-smi --query-gpu=driver_version --format=csv,noheader | head -1 | tr -d ' ')
 ```
 
-[Desktop Entry]
-Name=Hyprland
-Comment=An intelligent dynamic tiling Wayland compositor
-Exec=env WLR_RENDERER=vulkan GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia LIBVA_DRIVER_NAME=nvidia XDG_SESSION_TYPE=wayland LIBGL_DRIVERS_PATH=/run/opengl-driver/lib/gbm NIXPKGS_ALLOW_UNFREE=1 nixGLNvidia-570.133.07 Hyprland
-Type=Application
-DesktopNames=Hyprland
-Keywords=tiling;wayland;compositor;
+**System not using nixGL:**
+Check `~/.config/nix/active-system` exists and points to your system config.
 
-```
+## License
 
-6. Create a systemd service for gbm libraries such as `setup-opengl-symlinks.service`
-
-`sudo nano /etc/systemd/system/setup-opengl-symlinks.service`
-
-```
-
-# /etc/systemd/system/setup-opengl-symlinks.service
-[Unit]
-Description=Setup OpenGL symlinks before display manager
-DefaultDependencies=no
-Before=display-manager.service
-
-[Service]
-Type=oneshot
-ExecStart=/home/nick/.config/nix/home-manager/scripts/setup-opengl-symlinks.sh
-RemainAfterExit=yes
-
-[Install]
-WantedBy=multi-user.target
-
-```
-
-7. Enable and start the service
-
-```
-
-sudo systemctl daemon-reload
-sudo systemctl enable setup-opengl-symlinks.service
-sudo systemctl start setup-opengl-symlinks.service
-
-```
-
-8. Reboot and log in to Hyprland
-
-# Conclusion
-
-Although these are more steps than you'd want for something as simple as Hyprland on Nix (which ___should___ be a few lines at most), Nvidia is tricky to set up for wayland on non-nixos systems. If you have NixOS, there is not much of a reason to use this configuration. However, I know that there are a lot of packages that are great to use natively on Ubuntu and rely on the system-level graphics libraries, so this is a great middle-ground where you can have your cake (riced and declarative Hyprland configured through nix) and eat it too (use Ubuntu LTS and packages unavailable to the nix package manager). Let me know if these are redundant to some NixOS magic and I'll gladly archive this repo and switch ASAP.
-
-visit my website at [nickcline.com](https://nickcline.com) and please hire me
+MIT - do what you want.
