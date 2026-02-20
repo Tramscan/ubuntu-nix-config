@@ -304,6 +304,18 @@
         </div>
         <ul class="page-list">
             <li>
+                <a href="demo.html">
+                    <span class="rev">INTERACTIVE</span>
+                    <span class="title">🎯 Onboarding Demo</span>
+                </a>
+            </li>
+            <li>
+                <a href="#getting-started" onclick="showPage('getting-started', this); loadMarkdown('getting-started.md', 'getting-started-content'); return false;">
+                    <span class="rev">START</span>
+                    <span class="title">🚀 Getting Started</span>
+                </a>
+            </li>
+            <li>
                 <a href="#home" onclick="showPage('home', this); return false;">
                     <span class="rev">RES-0</span>
                     <span class="title">Home</span>
@@ -338,7 +350,14 @@
             </p>
         </section>
 
-        <!-- R.0 Content -->
+        <!-- Getting Started Content -->
+            <section id="getting-started" class="content">
+                <a href="#" class="back-link" onclick="showHome(); return false;">← Back to Home</a>
+                <div class="content-rendered" id="getting-started-content">
+                    <p>Loading...</p>
+                </div>
+            </section>
+            <!-- R.0 Content -->
         <section id="r0" class="content">
             <a href="#" class="back-link" onclick="showHome(); return false;">← Back to Home</a>
             <div class="content-rendered" id="r0-content">
@@ -446,7 +465,20 @@
             }
         }
 
-        async function loadR01() {
+        async function loadMarkdown(file, elementId) {
+    const container = document.getElementById(elementId);
+    if (container.dataset.loaded) return;
+    try {
+        const response = await fetch(file);
+        const md = await response.text();
+        container.innerHTML = mdToHtml(md);
+        container.dataset.loaded = 'true';
+    } catch (e) {
+        container.innerHTML = '<p>Error loading documentation.</p>';
+    }
+}
+
+async function loadR01() {
             const container = document.getElementById('r01-content');
             if (container.dataset.loaded) return;
             

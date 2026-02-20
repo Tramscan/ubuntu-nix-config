@@ -5,8 +5,8 @@ Declarative Ubuntu+Nix+home-manager setup with automatic NVIDIA driver version d
 ## 🚀 Quick Start
 
 ```bash
-# Clone
-git clone https://github.com/Tramscan/ubuntu-nix-config.git ~/.config/nix
+# Clone this fork (dynamic-nvidia-version branch)
+git clone -b dynamic-nvidia-version https://github.com/Tramscan/ubuntu-nix-config.git ~/.config/nix
 
 # Run interactive onboarding (first-time setup)
 ./scripts/onboard.sh

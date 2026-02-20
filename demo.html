@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Onboarding Demo</title>
+<style>
+body{font-family:monospace;background:#1e1e1e;color:#d4d4d4;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0;padding:20px}
+.terminal{width:100%;max-width:700px;background:#1e1e1e;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.5);border:1px solid #333}
+.header{background:#2d2d2d;padding:12px 16px;display:flex;gap:8px;border-bottom:1px solid #333}
+.dot{width:12px;height:12px;border-radius:50%}
+.close{background:#ff5f56}.min{background:#ffbd2e}.max{background:#27c93f}
+.title{flex:1;text-align:center;color:#888;font-size:13px}
+.content{padding:24px;min-height:450px}
+.screen{display:none}.screen.active{display:block;animation:fade .3s}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+.art{color:#4fc1ff;font-size:11px;white-space:pre;text-align:center;margin-bottom:20px}
+h2{color:#4fc1ff;font-size:16px;margin-bottom:16px;border-bottom:1px solid #333;padding-bottom:8px}
+.opt{padding:12px;margin:8px 0;background:#2d2d2d;border:1px solid #444;border-radius:6px;cursor:pointer;transition:.2s}
+.opt:hover{background:#3d3d3d;border-color:#4fc1ff}
+.opt.sel{background:#094771;border-color:#4fc1ff}
+.btn{padding:10px 24px;background:#094771;color:#fff;border:1px solid #4fc1ff;border-radius:6px;cursor:pointer;margin:8px 8px 8px 0}
+.btn:hover{background:#106cb7}
+.btn.pri{background:#238636;border-color:#3fb950}.btn.pri:hover{background:#2ea043}
+.nav{margin-top:24px;display:flex;justify-content:space-between}
+.detect{background:#1e4620;color:#b5cea8;padding:8px 12px;border-radius:4px;margin:8px 0;font-size:13px}
+</style>
+</head>
+<body>
+<div class="terminal">
+<div class="header"><span class="dot close"></span><span class="dot min"></span><span class="dot max"></span><span class="title">onboard.sh - Just Enough Nix</span></div>
+<div class="content">
+
+<!-- Welcome -->
+<div class="screen active" id="s1">
+<div class="art">
+   _    _           _                  _   _      _ _
+  / \  | | ___ _ __| |_ ___  _ __ __ _| \ | | ___| | | __ _
+ / _ \ | |/ _ \ '__| __/ _ \| '__/ _` |  \| |/ _ \ | |/ _` |
+/ ___ \| |  __/ |  | || (_) | | | (_| | |\ |  __/ | | (_| |
+/_/   \_\_|\___|_|   \__\___/|_|  \__, |_| \_|\___|_|_|\__,_|
+                                  |___/        Onboarding
+</div>
+<p>Welcome! This wizard configures your nixGL setup.</p>
+<br><button class="btn pri" onclick="go('s2')">Start Setup →</button>
+</div>
+
+<!-- Step 1: Identity -->
+<div class="screen" id="s2">
+<h2>Step 1/4: System Identity</h2>
+<p>Give this system a unique name:</p>
+<div class="opt sel"><span style="color:#4ec9b0">work-laptop</span> <span style="color:#858585">(your input)</span></div>
+<p style="color:#858585;font-size:12px">Config: ~/.config/nix/systems/work-laptop.nix</p>
+<div class="nav"><button class="btn" onclick="go('s1')">← Back</button><button class="btn pri" onclick="go('s3')">Next →</button></div>
+</div>
+
+<!-- Step 2: Type -->
+<div class="screen" id="s3">
+<h2>Step 2/4: System Type</h2>
+<div class="opt" onclick="go('s4')">1. desktop - Full GPU acceleration</div>
+<div class="opt sel" onclick="go('s4')">2. <strong>laptop</strong> - Portable + power saving</div>
+<div class="opt" onclick="go('s4')">3. minimal - Basic, no window manager</div>
+<div class="opt" onclick="go('s4')">4. headless - Server only</div>
+<div class="nav"><button class="btn" onclick="go('s2')">← Back</button></div>
+</div>
+
+<!-- Step 3: GPU -->
+<div class="screen" id="s4">
+<h2>Step 3/4: Graphics Configuration</h2>
+<div class="detect">Detected: NVIDIA GPU (driver: 570.133.07)</div>
+<div class="opt">1. none - No wrapper</div>
+<div class="opt">2. default - Auto-detect</div>
+<div class="opt sel">3. <strong>nvidia</strong> - Proprietary drivers ⭐</div>
+<div class="opt">4. bumblebee - NVIDIA Optimus</div>
+<div class="opt">5. intel - Intel integrated</div>
+<div class="nav"><button class="btn" onclick="go('s3')">← Back</button><button class="btn pri" onclick="go('s5')">Next →</button></div>
+</div>
+
+<!-- Step 4: NVIDIA -->
+<div class="screen" id="s5">
+<h2>Step 4/4: NVIDIA Version Management</h2>
+<p>Auto-detect driver version at boot?</p>
+<div class="opt sel" onclick="go('s6')">✓ <strong>Yes</strong> - Auto-detect (recommended)</div>
+<div class="opt" onclick="go('s6')">✗ No - Pin version manually</div>
+<div class="nav"><button class="btn" onclick="go('s4')">← Back</button></div>
+</div>
+
+<!-- Complete -->
+<div class="screen" id="s6">
+<h2>✓ Setup Complete!</h2>
+<p>Configuration written to:</p>
+<div class="opt">~/.config/nix/systems/work-laptop.nix</div>
+<br>
+<p><strong>Summary:</strong></p>
+<p>Name: work-laptop</p>
+<p>Type: laptop</p>
+<p>Graphics: nvidia</p>
+<p>Auto-detect: enabled</p>
+<br>
+<button class="btn pri" onclick="go('s1')">Start Over</button>
+</div>
+
+</div>
+</div>
+<script>
+function go(id){
+ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+}
+</script>
+</body>
+</html>
