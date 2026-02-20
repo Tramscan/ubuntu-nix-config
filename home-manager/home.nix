@@ -137,12 +137,35 @@ in
   };
 
   # nix.conf - this makes ALLOW_UNFREE automatic
+  # nix.conf for user and system-wide nix
   home.file.".config/nix/nix.conf".text = ''
     experimental-features = nix-command flakes auto-allocate-uids
     auto-optimise-store = true
     allow-unfree = true
     accept-flake-config = true
   '';
+
+  # Also set nix.conf at system level via home.file
+  home.file."/etc/nix/nix.conf".text = lib.mkIf pkgs.stdenv.isLinux ''
+    experimental-features = nix-command flakes auto-allocate-uids
+    auto-optimise-store = true
+    allow-unfree = true
+    accept-flake-config = true
+  '';
+
+  # System NIX_PATH and environment
+  home.sessionVariables = {
+    SUDO_EDITOR = "nvim";
+    SYSTEMD_EDITOR = "nvim";
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+    TERMINAL = "alacritty";
+    LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
+    NIXPKGS_ALLOW_UNFREE = 1;
+    NIXOS_OZONE_WL = "1";
+    # Ensure nix experimental features are enabled
+    NIX_CONFIG = "experimental-features = nix-command flakes";
+  };
 
   programs.home-manager.enable = true;
   programs.kitty.enable = true;
