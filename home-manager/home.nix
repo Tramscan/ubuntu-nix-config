@@ -137,16 +137,7 @@ in
   };
 
   # nix.conf - this makes ALLOW_UNFREE automatic
-  # nix.conf for user and system-wide nix
   home.file.".config/nix/nix.conf".text = ''
-    experimental-features = nix-command flakes auto-allocate-uids
-    auto-optimise-store = true
-    allow-unfree = true
-    accept-flake-config = true
-  '';
-
-  # Also set nix.conf at system level via home.file
-  home.file."/etc/nix/nix.conf".text = lib.mkIf pkgs.stdenv.isLinux ''
     experimental-features = nix-command flakes auto-allocate-uids
     auto-optimise-store = true
     allow-unfree = true
