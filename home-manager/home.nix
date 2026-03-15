@@ -115,17 +115,6 @@ in
     wofi wrappedSteam qbittorrent sunshine pipewire nodejs_24
   ];
 
-  # Session variables (but not NIXPKGS_ALLOW_UNFREE - that's in nix.conf)
-  home.sessionVariables = {
-    SUDO_EDITOR = "nvim";
-    SYSTEMD_EDITOR = "nvim";
-    EDITOR = "nvim";
-    VISUAL = "nvim";
-    TERMINAL = "alacritty";
-    LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
-    NIXOS_OZONE_WL = "1";
-  };
-
   # Shell aliases (for convenience)
   programs.bash.shellAliases = {
     "hm-switch" = "home-manager switch --flake ~/.config/nix";
