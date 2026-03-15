@@ -5,298 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Just Enough Nix - Documentation</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #ffffff;
-            color: #333;
-            line-height: 1.6;
-            min-height: 100vh;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #ffffff; color: #333; line-height: 1.6; min-height: 100vh; }
 
         /* Menu Button */
-        .menu-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            background: #fff;
-            border: 2px solid #333;
-            border-radius: 8px;
-            padding: 12px 16px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.2s;
-            box-shadow: 2px 2px 0 #333;
-        }
-
-        .menu-btn:hover {
-            background: #f0f0f0;
-            transform: translate(-2px, -2px);
-            box-shadow: 4px 4px 0 #333;
-        }
+        .menu-btn { position: fixed; top: 20px; left: 20px; z-index: 1000; background: #fff; border: 2px solid #333; border-radius: 8px; padding: 12px 16px; cursor: pointer; font-size: 16px; transition: all 0.2s; box-shadow: 2px 2px 0 #333; }
+        .menu-btn:hover { background: #f0f0f0; transform: translate(-2px, -2px); box-shadow: 4px 4px 0 #333; }
 
         /* Side Drawer */
-        .drawer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 300px;
-            height: 100vh;
-            background: #fff;
-            border-right: 2px solid #333;
-            transform: translateX(-100%);
-            transition: transform 0.3s ease;
-            z-index: 999;
-            overflow-y: auto;
-            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
-        }
-
-        .drawer.open {
-            transform: translateX(0);
-        }
-
-        .drawer-header {
-            padding: 80px 24px 24px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .drawer-header h2 {
-            font-size: 20px;
-            margin-bottom: 8px;
-        }
-
-        .drawer-header p {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .page-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .page-list li {
-            border-bottom: 1px solid #eee;
-        }
-
-        .page-list a {
-            display: block;
-            padding: 16px 24px;
-            color: #333;
-            text-decoration: none;
-            transition: background 0.2s;
-        }
-
-        .page-list a:hover,
-        .page-list a.active {
-            background: #f5f5f5;
-        }
-
-        .page-list .rev {
-            font-weight: bold;
-            color: #666;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .page-list .title {
-            display: block;
-            margin-top: 4px;
-            font-size: 16px;
-        }
+        .drawer { position: fixed; top: 0; left: 0; width: 300px; height: 100vh; background: #fff; border-right: 2px solid #333; transform: translateX(-100%); transition: transform 0.3s ease; z-index: 999; overflow-y: auto; box-shadow: 4px 0 20px rgba(0,0,0,0.1); }
+        .drawer.open { transform: translateX(0); }
+        .drawer-header { padding: 80px 24px 24px; border-bottom: 1px solid #eee; }
+        .drawer-header h2 { font-size: 20px; margin-bottom: 8px; }
+        .drawer-header p { color: #666; font-size: 14px; }
+        .page-list { list-style: none; padding: 0; }
+        .page-list li { border-bottom: 1px solid #eee; }
+        .page-list a { display: block; padding: 16px 24px; color: #333; text-decoration: none; transition: background 0.2s; }
+        .page-list a:hover, .page-list a.active { background: #f5f5f5; }
+        .page-list .rev { font-weight: bold; color: #666; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .page-list .title { display: block; margin-top: 4px; font-size: 16px; }
 
         /* Overlay */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.3);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-            z-index: 998;
-        }
-
-        .overlay.open {
-            opacity: 1;
-            visibility: visible;
-        }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); opacity: 0; visibility: hidden; transition: all 0.3s; z-index: 998; }
+        .overlay.open { opacity: 1; visibility: visible; }
 
         /* Main Content */
-        .main {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+        .main { min-height: 100vh; display: flex; flex-direction: column; }
+        .hero { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 60vh; padding: 40px; text-align: center; }
+        .hero h1 { font-size: 64px; font-weight: 700; margin-bottom: 16px; letter-spacing: -2px; }
+        .hero .subtitle { font-size: 20px; color: #666; max-width: 500px; }
+        .content { max-width: 800px; margin: 0 auto; padding: 40px; display: none; }
+        .content.active { display: block; }
+        .content-rendered { font-size: 16px; line-height: 1.8; }
+        .content-rendered h1 { font-size: 32px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 3px solid #333; }
+        .content-rendered h2 { font-size: 24px; margin-top: 32px; margin-bottom: 16px; }
+        .content-rendered h3 { font-size: 18px; margin-top: 24px; margin-bottom: 12px; }
+        .content-rendered p { margin-bottom: 16px; }
+        .content-rendered code { background: #f5f5f5; padding: 2px 6px; border-radius: 4px; font-family: 'Monaco', 'Consolas', monospace; font-size: 14px; }
+        .content-rendered pre { background: #f5f5f5; padding: 16px; border-radius: 8px; overflow-x: auto; margin: 16px 0; }
+        .content-rendered pre code { background: none; padding: 0; }
+        .content-rendered table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+        .content-rendered th, .content-rendered td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        .content-rendered th { background: #333; color: #fff; }
+        .content-rendered tr:hover { background: #f9f9f9; }
+        .content-rendered ul, .content-rendered ol { margin: 16px 0; padding-left: 24px; }
+        .content-rendered li { margin: 8px 0; }
+        .content-rendered blockquote { border-left: 4px solid #333; padding-left: 16px; margin: 16px 0; color: #666; }
+        .content-rendered hr { border: none; border-top: 2px solid #eee; margin: 32px 0; }
 
-        /* Hero Section */
-        .hero {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 60vh;
-            padding: 40px;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 64px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            letter-spacing: -2px;
-        }
-
-        .hero .subtitle {
-            font-size: 20px;
-            color: #666;
-            max-width: 500px;
-        }
-
-        /* Content Area */
-        .content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px;
-            display: none;
-        }
-
-        .content.active {
-            display: block;
-        }
-
-        .content-rendered {
-            font-size: 16px;
-            line-height: 1.8;
-        }
-
-        .content-rendered h1 {
-            font-size: 32px;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 3px solid #333;
-        }
-
-        .content-rendered h2 {
-            font-size: 24px;
-            margin-top: 32px;
-            margin-bottom: 16px;
-        }
-
-        .content-rendered h3 {
-            font-size: 18px;
-            margin-top: 24px;
-            margin-bottom: 12px;
-        }
-
-        .content-rendered p {
-            margin-bottom: 16px;
-        }
-
-        .content-rendered code {
-            background: #f5f5f5;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Monaco', 'Consolas', monospace;
-            font-size: 14px;
-        }
-
-        .content-rendered pre {
-            background: #f5f5f5;
-            padding: 16px;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 16px 0;
-        }
-
-        .content-rendered pre code {
-            background: none;
-            padding: 0;
-        }
-
-        .content-rendered table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 16px 0;
-        }
-
-        .content-rendered th,
-        .content-rendered td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .content-rendered th {
-            background: #333;
-            color: #fff;
-        }
-
-        .content-rendered tr:hover {
-            background: #f9f9f9;
-        }
-
-        .content-rendered ul,
-        .content-rendered ol {
-            margin: 16px 0;
-            padding-left: 24px;
-        }
-
-        .content-rendered li {
-            margin: 8px 0;
-        }
-
-        .content-rendered blockquote {
-            border-left: 4px solid #333;
-            padding-left: 16px;
-            margin: 16px 0;
-            color: #666;
-        }
-
-        .content-rendered hr {
-            border: none;
-            border-top: 2px solid #eee;
-            margin: 32px 0;
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 40px;
-            color: #999;
-            font-size: 14px;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: #333;
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
+        .footer { text-align: center; padding: 40px; color: #999; font-size: 14px; }
+        .back-link { display: inline-block; margin-bottom: 20px; color: #333; text-decoration: none; font-size: 14px; }
+        .back-link:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-    <!-- Menu Button -->
     <button class="menu-btn" onclick="toggleDrawer()">☰ Menu</button>
-
-    <!-- Overlay -->
     <div class="overlay" onclick="closeDrawer()"></div>
 
-    <!-- Side Drawer -->
     <nav class="drawer">
         <div class="drawer-header">
             <h2>Just Enough Nix</h2>
@@ -328,174 +93,42 @@
                 </a>
             </li>
             <li>
-                <a href="#r01" onclick="showPage('r01',                    this); return false;">
+                <a href="#r01" onclick="showPage('r01', this); return false;">
                     <span class="rev">R.0.1</span>
                     <span class="title">NVIDIA Version Mgmt</span>
+                </a>
+            </li>
+            <li>
+                <a href="#openclaw" onclick="showPage('openclaw', this); loadOpenClaw(); return false;">
+                    <span class="rev">TOOL</span>
+                    <span class="title">🤖 OpenClaw + Local AI</span>
                 </a>
             </li>
         </ul>
     </nav>
 
-    <!-- Main Content -->
     <main class="main">
-        <!-- Home View -->
         <section id="home" class="hero content active">
             <h1>Just Enough Nix</h1>
-            <p class="subtitle">
-                Declarative Ubuntu + Nix + home-manager configuration<br>
-                with automatic NVIDIA driver version management
-            </p>
-            <p style="margin-top: 40px; color: #999;">
-                Click ☰ Menu to explore documentation
-            </p>
+            <p class="subtitle">Declarative Ubuntu + Nix + home-manager configuration<br>with automatic NVIDIA driver version management</p>
+            <p style="margin-top: 40px; color: #999;">Click ☰ Menu to explore documentation</p>
         </section>
 
-        <!-- Getting Started Content -->
-            <section id="getting-started" class="content">
-                <a href="#" class="back-link" onclick="showHome(); return false;">← Back to Home</a>
-                <div class="content-rendered" id="getting-started-content">
-                    <p>Loading...</p>
-                </div>
-            </section>
-            <!-- R.0 Content -->
+        <section id="getting-started" class="content">
+            <a href="#" class="back-link" onclick="showHome(); return false;">← Back to Home</a>
+            <div class="content-rendered" id="getting-started-content"><p>Loading...</p></div>
+        </section>
+
         <section id="r0" class="content">
             <a href="#" class="back-link" onclick="showHome(); return false;">← Back to Home</a>
-            <div class="content-rendered" id="r0-content">
-                <p>Loading R.0...</p>
-            </div>
+            <div class="content-rendered" id="r0-content"><p>Loading R.0...</p></div>
         </section>
 
-        <!-- R.0.1 Content -->
         <section id="r01" class="content">
             <a href="#" class="back-link" onclick="showHome(); return false;">← Back to Home</a>
-            <div class="content-rendered" id="r01-content">
-                <p>Loading R.0.1...</p>
-            </div>
+            <div class="content-rendered" id="r01-content"><p>Loading R.0.1...</p></div>
         </section>
 
-        <footer class="footer">
-            ubuntu-nix-config • Just Enough Nix
-        </footer>
-    </main>
-
-    <script>
-        // Simple MD to HTML converter
-        function mdToHtml(md) {
-            return md
-                // Headers
-                .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-                // Bold and italic
-                .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>')
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                // Code blocks
-                .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
-                // Inline code
-                .replace(/`([^`]+)`/g, '<code>$1</code>')
-                // Links
-                .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
-                // Tables
-                .replace(/\|\s*([^\|]+\|[^\|]+)\|/g, '<td>$1</td>')
-                // Lists
-                .replace(/^\s*-\s+(.*$)/gim, '<li>$1</li>')
-                .replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>')
-                // Paragraphs
-                .replace(/\n\n/g, '</p><p>')
-                // Line breaks
-                .replace(/\n/g, '<br>')
-                // Wrap in p if needed
-                .replace(/^([^<].*)/gm, '<p>$1</p>');
-        }
-
-        // Drawer controls
-        function openDrawer() {
-            document.querySelector('.drawer').classList.add('open');
-            document.querySelector('.overlay').classList.add('open');
-        }
-
-        function closeDrawer() {
-            document.querySelector('.drawer').classList.remove('open');
-            document.querySelector('.overlay').classList.remove('open');
-        }
-
-        function toggleDrawer() {
-            const drawer = document.querySelector('.drawer');
-            drawer.classList.contains('open') ? closeDrawer() : openDrawer();
-        }
-
-        // Page navigation
-        function hideAllPages() {
-            document.querySelectorAll('.content').forEach(el => el.classList.remove('active'));
-        }
-
-        function showHome() {
-            hideAllPages();
-            document.getElementById('home').classList.add('active');
-            closeDrawer();
-        }
-
-        function showPage(pageId, linkEl) {
-            hideAllPages();
-            document.getElementById(pageId).classList.add('active');
-            closeDrawer();
-            
-            // Update active state in menu
-            document.querySelectorAll('.page-list a').forEach(a => a.classList.remove('active'));
-            if (linkEl) linkEl.classList.add('active');
-            
-            // Load content if needed
-            if (pageId === 'r0') loadR0();
-            if (pageId === 'r01') loadR01();
-        }
-
-        // Load markdown content
-        async function loadR0() {
-            const container = document.getElementById('r0-content');
-            if (container.dataset.loaded) return;
-            
-            try {
-                const response = await fetch('R.0-Overview.md');
-                const md = await response.text();
-                container.innerHTML = mdToHtml(md);
-                container.dataset.loaded = 'true';
-            } catch (e) {
-                container.innerHTML = '<p>Error loading documentation. Make sure the .md file exists.</p>';
-            }
-        }
-
-        async function loadMarkdown(file, elementId) {
-    const container = document.getElementById(elementId);
-    if (container.dataset.loaded) return;
-    try {
-        const response = await fetch(file);
-        const md = await response.text();
-        container.innerHTML = mdToHtml(md);
-        container.dataset.loaded = 'true';
-    } catch (e) {
-        container.innerHTML = '<p>Error loading documentation.</p>';
-    }
-}
-
-async function loadR01() {
-            const container = document.getElementById('r01-content');
-            if (container.dataset.loaded) return;
-            
-            try {
-                const response = await fetch('R.0.1-NVIDIA-Version-Management.md');
-                const md = await response.text();
-                container.innerHTML = mdToHtml(md);
-                container.dataset.loaded = 'true';
-            } catch (e) {
-                container.innerHTML = '<p>Error loading documentation. Make sure the .md file exists.</p>';
-            }
-        }
-
-        // Close drawer on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeDrawer();
-        });
-    </script>
-</body>
-</html>
+        <section id="openclaw" class="content">
+            <a href="#" class="back-link" onclick="showHome(); return false;">← Back to Home</a>
+            <div class="content-rendered" id="openclaw-content"><p>Loading OpenClaw docs
