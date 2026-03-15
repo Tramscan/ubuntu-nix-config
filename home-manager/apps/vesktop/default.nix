@@ -93,7 +93,8 @@ in
   };
 
   # Shell alias for convenience
-  home.shellAliases = lib.mkIf useNixGL {
-    "vesktop-nogpu" = "vesktop --disable-gpu";
-  };
+  # NOTE: Commented out to avoid conflict with home.nix shellAliases
+  # home.shellAliases = lib.mkIf useNixGL {
+  #   "vesktop-nogpu" = "vesktop --disable-gpu";
+  # };
 }
