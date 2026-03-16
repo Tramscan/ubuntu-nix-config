@@ -29,13 +29,8 @@ in
       description = ''
         Manual override for NVIDIA driver version.
         When set (e.g., "570.133.07"), this version will be used for nixGL
-        instead of auto-detecting. This allows you to:
-        - Pin a specific version
-        - Downgrade after a problematic update
-        - Test different driver versions
-
-        Set to null (default) to use auto-detection (if enabled) or fall back
-        to a default version.
+        instead of auto-detecting.
+        Set to null (default) to use auto-detection (if enabled) or fall back.
       '';
     };
 
@@ -44,8 +39,7 @@ in
       default = true;
       description = ''
         Whether to regenerate /usr/share/wayland-sessions/hyprland.desktop
-        with the correct nixGL version. This requires root privileges.
-        The script will use sudo if available.
+        with the correct nixGL version.
       '';
     };
 
@@ -54,7 +48,6 @@ in
       default = /usr/share/wayland-sessions/hyprland.desktop;
       description = ''
         Path where the Hyprland .desktop file should be written.
-        Default is the system-wide location used by display managers.
       '';
     };
 
@@ -62,11 +55,12 @@ in
       type = lib.types.str;
       default = "570.133.07";
       description = ''
-        Fallback NVIDIA driver version to use when auto-detection fails
-        and no manual version is set.
+        Fallback NVIDIA driver version to use when auto-detection fails.
       '';
     };
   };
 
-  config = cfg;
+  # FIXED: Don't use "config = cfg;" - defined properly or leave empty
+  # Config values are set in home.nix via the nvidiaManagement option
+  config = {};
 }
